@@ -1,34 +1,41 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 
-export const Home = () => {
+export const Home = (): JSX.Element => {
   const [token, setToken] = useState<string>('');
 
-  const handleSubmit = (event: any) => {
-    console.log('A token was submitted: ' + token)
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log('A token was submitted: ' + token);
     event.preventDefault();
-    console.log(window.api)
+    console.log(window.api);
     window.api.startAgent(token);
-  }
+  };
 
-  const handleStop = (event: any) => {
+  const handleStop = (_event: SyntheticEvent) => {
     console.log('Stopping the agent...');
     window.api.stopAgent();
-  }
+  };
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setToken(event.target.value);
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={ handleSubmit }>
         <label>
           TOKEN:
-          <input type="text" value={token} onChange={handleChange} />
+          <input
+            onChange={ handleChange }
+            type="text"
+            value={ token }
+          />
         </label>
-        <input type="submit" value="Submit" />
+        <input
+          type="submit"
+          value="Submit"
+        />
       </form>
-      <button onClick={handleStop}>Stop Agent</button>
+      <button onClick={ handleStop }>Stop Agent</button>
     </>
   );
 };
