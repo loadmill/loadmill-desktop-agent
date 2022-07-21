@@ -14,7 +14,8 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --color",
-    "test": "jest"
+    "test": "jest",
+    "parallel-lint-and-test": "concurrently --raw 'yarn lint' 'yarn test'"
   },
   "keywords": [],
   "license": "MIT",
@@ -79,6 +80,7 @@
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
+    "concurrently": "^7.3.0",
     "css-loader": "^6.0.0",
     "electron": "18.2.4",
     "eslint": "^8.20.0",
