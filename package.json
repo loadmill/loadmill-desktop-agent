@@ -1,6 +1,6 @@
 {
-  "name": "my-new-app",
-  "productName": "my-new-app",
+  "name": "loadmill-desktop-agent",
+  "productName": "loadmill-desktop-agent",
   "version": "1.0.0",
   "description": "My Electron application description",
   "author": {
@@ -26,7 +26,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "my_new_app"
+            "name": "loadmill_desktop_agent"
           }
         },
         {
