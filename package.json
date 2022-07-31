@@ -97,7 +97,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@loadmill/agent": "^0.1.63",
+    "@loadmill/agent": "^0.1.64",
     "electron-squirrel-startup": "^1.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
