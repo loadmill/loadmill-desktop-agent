@@ -2512,6 +2512,13 @@
   dependencies:
     defer-to-connect "^2.0.0"
 
+"@timfish/forge-externals-plugin@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@timfish/forge-externals-plugin/-/forge-externals-plugin-0.2.0.tgz#906ab8df58f4fe31f46284ca20e7a7df8a0e2e15"
+  integrity sha512-gqQglr/4bIjjEPCY3aGS2uNqfGKSN9umQkrW0WIJUxfVxFIjT3Mw12Im3rVlhTniUHvZXXb/iB/xQg525nS8eg==
+  dependencies:
+    flora-colossus "1.0.1"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -5591,7 +5598,7 @@ flatted@^3.1.0, flatted@^3.2.4:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.6.tgz#022e9218c637f9f3fc9c35ab9c9193f05add60b2"
   integrity sha512-0sQoMh9s0BYsm+12Huy/rkKxVu4R1+r96YX5cG44rHV0pQ6iC3Q+mkoMFaGWObMFYQxCVT+ssG1ksneA2MI9KQ==
 
-flora-colossus@^1.0.0:
+flora-colossus@1.0.1, flora-colossus@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/flora-colossus/-/flora-colossus-1.0.1.tgz#aba198425a8185341e64f9d2a6a96fd9a3cbdb93"
   integrity sha512-d+9na7t9FyH8gBJoNDSi28mE4NgQVGGvxQ4aHtFRetjyh5SXjuus+V5EZaxFmFdXVemSOrx0lsgEl/ZMjnOWJA==

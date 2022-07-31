@@ -10,12 +10,16 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
-    preferRelative: true,
+    alias: { type: 'type-component' },
+    // preferRelative: true,
   },
   node: {
     __dirname: true
   },
   optimization: {
     minimize: false
+  },
+  externals: {
+    vm2: 'vm2'
   }
 };
