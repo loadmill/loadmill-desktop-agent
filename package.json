@@ -1,78 +1,28 @@
 {
-  "name": "loadmill-desktop-agent",
+  "name": "loadmill-desktop-agent-test",
   "productName": "loadmill-desktop-agent",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "version": "0.0.3",
+  "description": "Loadmill users can use this desktop agent to run API and Load tests locally or on their servers.",
   "author": {
     "name": "Gilad Gur Andelman",
     "email": "gilad@loadmill.com"
   },
   "main": ".webpack/main",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "build": "electron-builder build --mac --publish never",
+    "publish-builder": "electron-builder build --mac --publish always",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --color",
-    "test": "jest",
-    "parallel-lint-and-test": "concurrently --raw 'yarn lint' 'yarn test'"
+    "make": "electron-forge make",
+    "package": "electron-forge package",
+    "parallel-lint-and-test": "concurrently --raw 'yarn lint' 'yarn test'",
+    "publish": "electron-forge publish",
+    "start": "electron-forge start",
+    "test": "jest"
   },
   "keywords": [],
   "license": "MIT",
   "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "loadmill_desktop_agent"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ],
-      "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
-            "mainConfig": "./webpack.main.config.js",
-            "renderer": {
-              "config": "./webpack.renderer.config.js",
-              "entryPoints": [
-                {
-                  "html": "./src/index.html",
-                  "js": "./src/renderer.ts",
-                  "name": "main_window",
-                  "preload": {
-                    "js": "./src/preload.ts"
-                  }
-                }
-              ]
-            }
-          }
-        ],
-        [
-          "@timfish/forge-externals-plugin",
-          {
-            "externals": ["vm2"],
-            "includeDeps": true
-          }
-        ]
-      ]
-    }
+    "forge": "./forge.config.js"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.63",
@@ -81,6 +31,7 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
     "@electron-forge/plugin-webpack": "6.0.0-beta.63",
+    "@electron-forge/publisher-s3": "^6.0.0-beta.65",
     "@timfish/forge-externals-plugin": "^0.2.0",
     "@types/jest": "^28.1.6",
     "@types/react": "^18.0.9",
@@ -90,10 +41,13 @@
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
     "concurrently": "^7.3.0",
     "css-loader": "^6.0.0",
+    "dotenv": "^16.0.1",
     "electron": "18.2.4",
+    "electron-builder": "^23.3.3",
     "eslint": "^8.20.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-typescript-sort-keys": "^2.1.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "fork-ts-checker-webpack-plugin": "^6.0.1",
     "husky": "^8.0.1",
@@ -107,6 +61,7 @@
   "dependencies": {
     "@loadmill/agent": "^0.1.65",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^5.2.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
   }
