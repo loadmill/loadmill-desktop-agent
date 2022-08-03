@@ -7,7 +7,12 @@ module.exports = {
     browser: true,
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'react', 'unused-imports', 'import'
+  plugins: [
+    '@typescript-eslint',
+    'react',
+    'unused-imports',
+    'import',
+    'typescript-sort-keys',
   ],
   parserOptions: {
     ecmaVersion: 2020,
@@ -28,8 +33,10 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:eslint-comments/recommended',
     'plugin:import/recommended',
+    'plugin:typescript-sort-keys/recommended',
   ],
   rules: {
+    'sort-vars': 'error',
     'no-var': 'error',
     'import/order': [
       'error',

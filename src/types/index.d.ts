@@ -3,8 +3,10 @@ export { };
 declare global {
   interface Window {
     api: {
-      startAgent: (msg: string) => void,
-      stopAgent: (msg?: string) => void,
+      getVersion: (msg?: string) => void;
+      restartApp: (msg?: string) => void;
+      startAgent: (msg: string) => void;
+      stopAgent: (msg?: string) => void;
     }
   }
 }

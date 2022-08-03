@@ -1,0 +1,22 @@
+{
+  "appId": "com.loadmill.agent",
+  "productName": "Loadmill Desktop Agent",
+  "copyright": "Copyright © Loadmill",
+  "directories": {
+    "output": "release/"
+  },
+  "mac": {
+    "icon": "dist",
+    "target": [
+      "zip",
+      "dmg"
+    ],
+    "category": "your.app.category.type"
+  },
+  "publish": {
+    "provider": "s3",
+    "bucket": "desktop-agent",
+    "region": "us-east-1",
+    "acl": "private"
+  }
+}
