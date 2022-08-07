@@ -20,9 +20,12 @@ export const WINDOW_API = {
 const windowLoaded = new Promise(resolve => {
   window.onload = resolve;
 });
-
+ipcRenderer.on('checkForUpdatesAndNotify', () => {
+  console.log('checkForUpdatesAndNotify', 'onni3');
+});
 ipcRenderer.on(UPDATE_AVAILABLE, async () => {
   await windowLoaded;
+  console.log(UPDATE_AVAILABLE, 'onni');
   window.postMessage(UPDATE_AVAILABLE);
   ipcRenderer.removeAllListeners(UPDATE_AVAILABLE);
 });

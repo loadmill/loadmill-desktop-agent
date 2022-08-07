@@ -9,11 +9,9 @@ export class AutoUpdater {
     });
 
     app.on(READY, () => {
-      if (app.isPackaged) {
-        autoUpdater.checkForUpdatesAndNotify();
-      } else {
-        console.log('we would have run checkForUpdatesAndNotify here');
-      }
+      console.log('checkForUpdatesAndNotify');
+      mainWindow.webContents.send('checkForUpdatesAndNotify');
+      autoUpdater.checkForUpdatesAndNotify();
     });
 
     autoUpdater.on('update-available', () => {
@@ -21,7 +19,7 @@ export class AutoUpdater {
       mainWindow.webContents.send(UPDATE_AVAILABLE);
     });
 
-    autoUpdater.on('update-downloaded', () => {
+    autoUpdater.on(UPDATE_DOWNLOADED, () => {
       console.log('We have downloaded an update');
       mainWindow.webContents.send(UPDATE_DOWNLOADED);
     });
