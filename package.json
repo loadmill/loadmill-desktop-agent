@@ -1,7 +1,7 @@
 {
-  "name": "loadmill-desktop-agent-test",
+  "name": "loadmill-desktop-agent",
   "productName": "loadmill-desktop-agent",
-  "version": "0.0.8",
+  "version": "0.0.1",
   "description": "Loadmill users can use this desktop agent to run API and Load tests locally or on their servers.",
   "author": {
     "name": "Gilad Gur Andelman",
@@ -43,7 +43,6 @@
     "css-loader": "^6.0.0",
     "dotenv": "^16.0.1",
     "electron": "18.2.4",
-    "electron-builder": "^23.3.3",
     "eslint": "^8.20.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-eslint-comments": "^3.2.0",
@@ -61,7 +60,6 @@
   "dependencies": {
     "@loadmill/agent": "^0.1.65",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-updater": "^5.2.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
   }
