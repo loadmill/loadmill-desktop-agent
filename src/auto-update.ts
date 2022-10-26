@@ -4,7 +4,7 @@ import { READY, RESTART_APP, UPDATE_AVAILABLE, UPDATE_DOWNLOADED } from './const
 
 export class AutoUpdater {
   constructor(mainWindow: BrowserWindow) {
-    const server = 'http://localhost:3000';
+    const server = 'http://localhost:3001';
     const url = `${server}/update/${process.platform}/${app.getVersion()}`;
 
     autoUpdater.setFeedURL({ url });

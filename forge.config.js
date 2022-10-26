@@ -1,22 +1,33 @@
-
 require('dotenv').config();
 
 module.exports = {
-  'packagerConfig': {},
-  'publishers': [
+  packagerConfig: {
+    osxSign: {
+      identity: `Developer ID Application: Loadmill LTD (${process.env.LOADMILL_KEY_CODE})`,
+      'hardened-runtime': true,
+      entitlements: 'entitlements.plist',
+      'entitlements-inherit': 'entitlements.plist',
+      'signature-flags': 'library'
+    },
+    osxNotarize: {
+      appleId: process.env.APPLE_ID,
+      appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
+    }
+  },
+  publishers: [
     {
-      'name': '@electron-forge/publisher-s3',
-      'config': {
-        'bucket': 'desktop-agent',
-        // 'folder': 'releases',
-        'region': 'us-east-1',
-        // 'public': true,
-        'accessKeyId': process.env.AWS_ACCESS_KEY_ID,
-        'secretAccessKey': process.env.AWS_SECRET_ACCESS_KEY,
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'loadmill',
+          name: 'loadmill-desktop-agent'
+        },
+        // authToken: process.env.GITHUB_TOKEN
+        // prerelease: true
       }
     }
   ],
-  'makers': [
+  makers: [
     {
       'name': '@electron-forge/maker-squirrel',
       'config': {
@@ -38,7 +49,7 @@ module.exports = {
       'config': {}
     }
   ],
-  'plugins': [
+  plugins: [
     [
       '@electron-forge/plugin-webpack',
       {

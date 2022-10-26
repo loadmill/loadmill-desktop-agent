@@ -1,7 +1,7 @@
 {
   "name": "loadmill-desktop-agent",
   "productName": "loadmill-desktop-agent",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Loadmill users can use this desktop agent to run API and Load tests locally or on their servers.",
   "author": {
     "name": "Gilad Gur Andelman",
@@ -9,13 +9,11 @@
   },
   "main": ".webpack/main",
   "scripts": {
-    "build": "electron-builder build --mac --publish never",
-    "publish-builder": "electron-builder build --mac --publish always",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --color",
     "make": "electron-forge make",
     "package": "electron-forge package",
     "parallel-lint-and-test": "concurrently --raw 'yarn lint' 'yarn test'",
-    "publish": "electron-forge publish",
+    "forge-publish": "electron-forge publish",
     "start": "electron-forge start",
     "test": "jest"
   },
@@ -31,6 +29,7 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
     "@electron-forge/plugin-webpack": "6.0.0-beta.63",
+    "@electron-forge/publisher-github": "^6.0.0-beta.65",
     "@electron-forge/publisher-s3": "^6.0.0-beta.65",
     "@timfish/forge-externals-plugin": "^0.2.0",
     "@types/jest": "^28.1.6",
@@ -61,6 +60,7 @@
     "@loadmill/agent": "^0.1.65",
     "electron-squirrel-startup": "^1.0.0",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react-dom": "^18.1.0",
+    "update-electron-app": "^2.0.1"
   }
 }
