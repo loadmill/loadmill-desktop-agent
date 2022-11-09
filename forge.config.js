@@ -2,17 +2,19 @@ require('dotenv').config();
 
 module.exports = {
   packagerConfig: {
-    osxSign: {
-      identity: `Developer ID Application: Loadmill LTD (${process.env.LOADMILL_KEY_CODE})`,
-      'hardened-runtime': true,
-      entitlements: 'entitlements.plist',
-      'entitlements-inherit': 'entitlements.plist',
-      'signature-flags': 'library'
-    },
-    osxNotarize: {
-      appleId: process.env.APPLE_ID,
-      appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
-    }
+    // osxSign: {
+    //   identity: `Developer ID Application: Loadmill LTD (${process.env.LOADMILL_KEY_CODE})`,
+    //   'hardened-runtime': true,
+    //   entitlements: 'entitlements.plist',
+    //   'entitlements-inherit': 'entitlements.plist',
+    //   'signature-flags': 'library'
+    // },
+    // osxNotarize: {
+    //   tool: 'notarytool',
+    //   appleId: process.env.APPLE_ID,
+    //   appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
+    //   teamId: process.env.LOADMILL_KEY_CODE,
+    // }
   },
   publishers: [
     {
@@ -40,14 +42,14 @@ module.exports = {
         'darwin'
       ]
     },
-    {
-      'name': '@electron-forge/maker-deb',
-      'config': {}
-    },
-    {
-      'name': '@electron-forge/maker-rpm',
-      'config': {}
-    }
+    // {
+    //   'name': '@electron-forge/maker-deb',
+    //   'config': {}
+    // },
+    // {
+    //   'name': '@electron-forge/maker-rpm',
+    //   'config': {}
+    // }
   ],
   plugins: [
     [
