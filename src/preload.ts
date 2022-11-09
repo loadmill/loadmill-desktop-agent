@@ -3,11 +3,12 @@ import {
   API,
   APP_VERSION,
   GET_APP_VERSION,
+  LINK_TO_LOADMILL_SECURITY,
   RESTART_APP,
   START_AGENT,
   STOP_AGENT,
   // UPDATE_AVAILABLE,
-  // UPDATE_DOWNLOADED
+  // UPDATE_DOWNLOADED,
 } from './constants';
 
 export const WINDOW_API = {
@@ -15,6 +16,7 @@ export const WINDOW_API = {
   restartApp: (msg?: string): void => ipcRenderer.send(RESTART_APP, msg),
   startAgent: (msg: string): void => ipcRenderer.send(START_AGENT, msg),
   stopAgent: (msg?: string): void => ipcRenderer.send(STOP_AGENT, msg),
+  linkToLoadmillSecurity: (msg?: string): void => ipcRenderer.send(LINK_TO_LOADMILL_SECURITY, msg),
 };
 
 const windowLoaded = new Promise(resolve => {

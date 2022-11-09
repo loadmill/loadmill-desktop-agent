@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, shell } from 'electron';
 import './agent-handlers';
 import './app-version';
 import './update-electron-app';
@@ -31,7 +31,13 @@ const createWindow = async (): Promise<void> => {
 
   await mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
+  // Open the DevTools.
   mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' };
+  });
 };
 
 app.on(READY, createWindow);

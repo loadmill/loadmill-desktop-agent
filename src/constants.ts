@@ -14,3 +14,5 @@ export const
 export const PLATFORM: { [platform: string]: NodeJS.Platform; } = {
   DARWIN: 'darwin',
 };
+
+export const LINK_TO_LOADMILL_SECURITY = 'https://app.loadmill.com/app/user/settings/security';
