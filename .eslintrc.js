@@ -70,9 +70,7 @@ module.exports = {
       },
     ],
     'react/jsx-closing-tag-location': 'error',
-    'react/jsx-max-depth': ['error',
-      { 'max': 3
-      }
+    'react/jsx-max-depth': ['error', { 'max': 5 }
     ],
     'react/destructuring-assignment': 'error',
     'react/no-unused-prop-types': 'error',

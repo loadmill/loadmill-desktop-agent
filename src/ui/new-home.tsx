@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,12 +10,16 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import loadmillLogo from './loadmill_logo.png';
+import { Page } from './main';
 import { LINK_TO_LOADMILL_SECURITY } from '../constants';
 
 const theme = createTheme();
 
-export function NewHome(): JSX.Element {
-  const [token, setToken] = useState<string>('');
+export const NewHome = ({ token, setToken, setPage }: {
+  token: string;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
+  setPage: React.Dispatch<React.SetStateAction<Page>>;
+}): JSX.Element => {
 
   const handleChangeToken = (event: React.ChangeEvent<HTMLInputElement>) => {
     setToken(event.target.value);
@@ -25,6 +29,7 @@ export function NewHome(): JSX.Element {
     event.preventDefault();
     window.api.startAgent(token);
     setToken('');
+    setPage('console');
   };
 
   const handleStop = (_event: SyntheticEvent) => {
@@ -65,7 +70,7 @@ export function NewHome(): JSX.Element {
       </Container>
     </ThemeProvider>
   );
-}
+};
 
 function ConnectForm({ handleSubmit, handleStop, handleChangeToken, token }: {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -89,7 +94,6 @@ function ConnectForm({ handleSubmit, handleStop, handleChangeToken, token }: {
         margin='normal'
         name='token'
         onChange={ handleChangeToken }
-        required
         value={ token }
       />
       <Button
