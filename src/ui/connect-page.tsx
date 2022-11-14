@@ -15,7 +15,7 @@ import { LINK_TO_LOADMILL_SECURITY } from '../constants';
 
 const theme = createTheme();
 
-export const NewHome = ({ token, setToken, setPage }: {
+export const ConnectPage = ({ token, setToken, setPage }: {
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
   setPage: React.Dispatch<React.SetStateAction<Page>>;

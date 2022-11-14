@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Console } from './console';
-import { NewHome } from './new-home';
+import { ConnectPage } from './connect-page';
 
 export type Page = 'connect' | 'console';
 
@@ -10,14 +10,17 @@ export const Main = (): JSX.Element => {
   const [log, setLog] = useState<string[]>([]);
   const [i, setI] = useState<number>(0);
 
-  setInterval(() => {
-    setI(i => i + 1);
-    setLog(prevLog => [...prevLog, i + '']);
-  }, 3000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setI(i + 1);
+      setLog(prevLog => [...prevLog, i + '']);
+    }, 500);
+    return () => clearInterval(interval);
+  }, [log, i]);
 
   if (page === 'connect') {
     return (
-      <NewHome
+      <ConnectPage
         setPage={ setPage }
         setToken={ setToken }
         token={ token }

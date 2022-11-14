@@ -13,8 +13,12 @@ export const Console = ({ log, setPage }: {
 }): JSX.Element =>
   (
     <>
-      <Button onClick={ () => setPage('connect') }>Back</Button>
-      <InteractiveList log={ log } />
+      <div>
+        <Button onClick={ () => setPage('connect') }>Back</Button>
+      </div>
+      <div style={ { maxHeight: 500, overflow: 'auto' } }>
+        <InteractiveList log={ log } />
+      </div>
     </>
   );
 
