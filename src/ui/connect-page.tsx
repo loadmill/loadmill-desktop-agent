@@ -16,9 +16,9 @@ import { LINK_TO_LOADMILL_SECURITY } from '../constants';
 const theme = createTheme();
 
 export const ConnectPage = ({ token, setToken, setPage }: {
-  token: string;
-  setToken: React.Dispatch<React.SetStateAction<string>>;
   setPage: React.Dispatch<React.SetStateAction<Page>>;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
+  token: string;
 }): JSX.Element => {
 
   const handleChangeToken = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,9 +73,9 @@ export const ConnectPage = ({ token, setToken, setPage }: {
 };
 
 function ConnectForm({ handleSubmit, handleStop, handleChangeToken, token }: {
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  handleStop: (_event: SyntheticEvent) => void;
   handleChangeToken: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleStop: (_event: SyntheticEvent) => void;
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   token: string;
 }): JSX.Element {
   return (

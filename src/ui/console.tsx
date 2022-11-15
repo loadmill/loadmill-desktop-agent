@@ -17,12 +17,12 @@ export const Console = ({ log, setPage }: {
         <Button onClick={ () => setPage('connect') }>Back</Button>
       </div>
       <div style={ { maxHeight: 500, overflow: 'auto' } }>
-        <InteractiveList log={ log } />
+        <ScrollableList log={ log } />
       </div>
     </>
   );
 
-export function InteractiveList({ log }: { log: string[]; }): JSX.Element {
+export function ScrollableList({ log }: { log: string[]; }): JSX.Element {
   const scrollRef = useRef(null);
 
   useEffect(() => {
