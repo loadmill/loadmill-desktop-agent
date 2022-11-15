@@ -1,7 +1,7 @@
 {
   "name": "loadmill-desktop-agent",
   "productName": "loadmill-desktop-agent",
-  "version": "0.0.6",
+  "version": "0.0.0",
   "description": "Loadmill users can use this desktop agent to run API and Load tests locally or on their servers.",
   "author": {
     "name": "Gilad Gur Andelman",
@@ -57,7 +57,9 @@
   },
   "dependencies": {
     "@loadmill/agent": "^0.1.71",
+    "electron-log": "^4.4.8",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^5.2.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "update-electron-app": "^2.0.1"

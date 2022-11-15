@@ -6,8 +6,8 @@ import {
   RESTART_APP,
   START_AGENT,
   STOP_AGENT,
-  UPDATE_AVAILABLE,
-  UPDATE_DOWNLOADED
+  // UPDATE_AVAILABLE,
+  // UPDATE_DOWNLOADED
 } from './constants';
 
 export const WINDOW_API = {
@@ -20,25 +20,23 @@ export const WINDOW_API = {
 const windowLoaded = new Promise(resolve => {
   window.onload = resolve;
 });
-ipcRenderer.on('checkForUpdatesAndNotify', () => {
-  console.log('checkForUpdatesAndNotify', 'onni3');
-});
-ipcRenderer.on(UPDATE_AVAILABLE, async () => {
-  await windowLoaded;
-  console.log(UPDATE_AVAILABLE, 'onni');
-  window.postMessage(UPDATE_AVAILABLE);
-  ipcRenderer.removeAllListeners(UPDATE_AVAILABLE);
-});
-
-ipcRenderer.on(UPDATE_DOWNLOADED, async () => {
-  await windowLoaded;
-  window.postMessage(UPDATE_DOWNLOADED);
-  ipcRenderer.removeAllListeners(UPDATE_DOWNLOADED);
-});
+// ipcRenderer.on('checkForUpdatesAndNotify', () => {
+//   console.log('checkForUpdatesAndNotify');
+// });
+// ipcRenderer.on(UPDATE_AVAILABLE, async () => {
+//   await windowLoaded;
+//   console.log(UPDATE_AVAILABLE);
+//   window.postMessage(UPDATE_AVAILABLE);
+//   ipcRenderer.removeAllListeners(UPDATE_AVAILABLE);
+// });
+// ipcRenderer.on(UPDATE_DOWNLOADED, async () => {
+//   await windowLoaded;
+//   window.postMessage(UPDATE_DOWNLOADED);
+//   ipcRenderer.removeAllListeners(UPDATE_DOWNLOADED);
+// });
 
 ipcRenderer.on(APP_VERSION, async (_event, arg: { [APP_VERSION]: string }) => {
   await windowLoaded;
-
   window.postMessage(APP_VERSION + ':' + arg[APP_VERSION]);
 });
 
