@@ -14,7 +14,7 @@ export const Main = (): JSX.Element => {
     const interval = setInterval(() => {
       setI(i + 1);
       setLog(prevLog => [...prevLog, i + '']);
-    }, 500);
+    }, 2500);
     return () => clearInterval(interval);
   }, [log, i]);
 
