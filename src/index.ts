@@ -1,7 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import './agent-handlers';
 import './app-version';
-// import { AutoUpdater } from './auto-update';
 import './update-electron-app';
 import { ACTIVATE, PLATFORM, READY, WINDOW_ALL_CLOSED } from './constants';
 
