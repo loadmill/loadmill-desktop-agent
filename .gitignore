@@ -89,6 +89,3 @@ typings/
 out/
 
 .vscode/
-
-# Electron-builder
-release/

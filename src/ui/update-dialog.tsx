@@ -14,7 +14,7 @@ export const UpdateDialog = (): JSX.Element => {
 
   window.addEventListener('message', (event) => {
     if (isFromPreload(event) && event.data === UPDATE_AVAILABLE) {
-      console.log(UPDATE_AVAILABLE, 'onni2');
+      console.log(UPDATE_AVAILABLE);
 
       setMsg('A new update is available. Downloading now...');
       setUpdateDialogStyle(shownStyle);

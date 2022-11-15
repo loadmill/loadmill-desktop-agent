@@ -36,13 +36,10 @@ ipcRenderer.on(UPDATE_DOWNLOADED, async () => {
   ipcRenderer.removeAllListeners(UPDATE_DOWNLOADED);
 });
 
-// ipcRenderer.send('app_version');
-
 ipcRenderer.on(APP_VERSION, async (_event, arg: { [APP_VERSION]: string }) => {
   await windowLoaded;
 
   window.postMessage(APP_VERSION + ':' + arg[APP_VERSION]);
-  // ipcRenderer.removeAllListeners('app_version');
 });
 
 contextBridge.exposeInMainWorld(API, WINDOW_API);
