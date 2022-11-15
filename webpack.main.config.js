@@ -17,7 +17,7 @@ module.exports = {
     __dirname: true
   },
   optimization: {
-    minimize: false
+    minimize: true
   },
   externals: {
     vm2: 'vm2'
