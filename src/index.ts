@@ -19,16 +19,16 @@ if (require('electron-squirrel-startup')) {
 
 const createWindow = async (): Promise<void> => {
   const mainWindow = new BrowserWindow({
-    height: 720,
-    width: 1280,
+    height: 800,
+    width: 800,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
 
   await mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+
+  // mainWindow.webContents.openDevTools();
 
   initMainToRenderer(mainWindow);
 
