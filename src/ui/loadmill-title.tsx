@@ -2,8 +2,13 @@ import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import loadmillLogo from './loadmill_logo.png';
+import { PulseCircle } from './pulse-circle';
 
-export const LoadmillTitle = (): JSX.Element => {
+export const LoadmillTitle = ({
+  isConnected,
+}: {
+  isConnected: boolean;
+}): JSX.Element => {
   return (
     <div
       style={ {
@@ -20,18 +25,9 @@ export const LoadmillTitle = (): JSX.Element => {
       >
         Loadmill Agent
       </Typography>
-      <div
-        className='red-pulse'
-        style={ { marginLeft: 16 } }
-      >
-        <p></p>
-      </div>
-      <div
-        className='green-pulse'
-        style={ { marginLeft: 16 } }
-      >
-        <p></p>
-      </div>
+      <PulseCircle
+        color={ isConnected ? 'green' : 'red' }
+      />
     </div>
   );
 };

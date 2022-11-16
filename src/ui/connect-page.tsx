@@ -69,7 +69,9 @@ export const ConnectPage = ({
             />
           </IconButton>
         </Link>
-        <LoadmillTitle/>
+        <LoadmillTitle
+          isConnected={ isConnected }
+        />
         <Tooltip
           placement='right'
           title='Console'

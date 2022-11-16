@@ -61,7 +61,9 @@ export const Console = ({
             />
           </IconButton>
         </Tooltip>
-        <LoadmillTitle/>
+        <LoadmillTitle
+          isConnected={ isConnected }
+        />
         <Tooltip
           placement='bottom'
           title='Scroll to bottom'
