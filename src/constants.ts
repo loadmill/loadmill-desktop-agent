@@ -20,4 +20,5 @@ export const PLATFORM: { [platform: string]: NodeJS.Platform; } = {
 };
 
 export const LINK_TO_LOADMILL_SECURITY = 'https://app.loadmill.com/app/user/settings/security';
+export const LINK_TO_LOADMILL_AGENT_DOCS = 'https://docs.loadmill.com/integrations/testing-localhost-application';
 export const LOADMILL_AGENT = 'loadmill-agent';

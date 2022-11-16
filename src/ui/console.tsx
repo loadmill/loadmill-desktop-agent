@@ -12,7 +12,12 @@ import { useScrollDirection } from 'react-use-scroll-direction';
 import { Page } from './main';
 import { LoadmillTitle } from './loadmill-title';
 
-export const Console = ({ log, setPage }: {
+export const Console = ({
+  isConnected,
+  log,
+  setPage,
+}: {
+  isConnected: boolean;
   log: string[];
   setPage: React.Dispatch<React.SetStateAction<Page>>;
 }): JSX.Element => {
@@ -36,7 +41,13 @@ export const Console = ({ log, setPage }: {
 
   return (
     <div>
-      <div style={ { display: 'flex', justifyContent: 'space-between' } }>
+      <div
+        style={ {
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        } }
+      >
         <Tooltip
           placement='right'
           title='BACK'
@@ -68,7 +79,6 @@ export const Console = ({ log, setPage }: {
         style={ { overflow: 'scroll', maxHeight: '80%' } }
       >
         <ScrollableList
-          isScrollingUp={ isScrollingUp }
           isUserScrolled={ isUserScrolled }
           log={ log }
           scrollRef={ scrollRef }
@@ -84,9 +94,7 @@ export function ScrollableList({
   isUserScrolled,
   scrollToBottom,
   scrollRef,
-  isScrollingUp,
 }: {
-  isScrollingUp: boolean;
   isUserScrolled: boolean;
   log: string[];
   scrollRef: Ref<HTMLLIElement>;
@@ -104,18 +112,24 @@ export function ScrollableList({
       {log.map((l, i) => (
         <LogEvent
           event={ l }
-          i={ i }
+          key={ i }
         />
       ))}
-      <ListItem ref={ scrollRef } />
+      <ListItem
+        ref={ scrollRef }
+      />
     </List>
   );
 }
 
-const LogEvent = ({ event, i }: {event: string; i: number}): JSX.Element => {
-  const eventColor = event.includes('[INFO]') ? 'lightgreen' : 'red';
+const LogEvent = ({ event }: { event: string; }): JSX.Element => {
+  const eventColor = event.includes('[INFO]') ?
+    'lightgreen' :
+    event.includes('[ERROR]') ?
+      'red' :
+      'inherit';
   return (
-    <ListItem key={ i }>
+    <ListItem >
       <ListItemText
         primary={
           <span

@@ -6,7 +6,11 @@ import loadmillLogo from './loadmill_logo.png';
 export const LoadmillTitle = (): JSX.Element => {
   return (
     <div
-      style={ { display: 'flex' } }
+      style={ {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      } }
     >
       <Avatar
         src={ loadmillLogo }
@@ -16,6 +20,18 @@ export const LoadmillTitle = (): JSX.Element => {
       >
         Loadmill Agent
       </Typography>
+      <div
+        className='red-pulse'
+        style={ { marginLeft: 16 } }
+      >
+        <p></p>
+      </div>
+      <div
+        className='green-pulse'
+        style={ { marginLeft: 16 } }
+      >
+        <p></p>
+      </div>
     </div>
   );
 };
