@@ -11,17 +11,18 @@ export const Main = (): JSX.Element => {
   const [token, setToken] = useState<string>('');
   const [log, setLog] = useState<string[]>([]);
 
+  const interceptAgentLog = (event: MessageEvent<{ data: string; type: string; }>) => {
+    if (isFromPreload(event) && [STDOUT, STDERR].includes(event.data?.type)) {
+      const lines = event.data.data.split('\n');
+      setLog(prevLog => [...prevLog, ...lines].filter(l => l && l.trim()));
+    }
+  };
+
   useEffect(() => {
-    const aaa = (event: MessageEvent<{ data: string; type: string; }>) => {
-      if (isFromPreload(event) && [STDOUT, STDERR].includes(event.data?.type)) {
-        const lines = event.data.data.split('\n');
-        setLog(prevLog => [...prevLog, ...lines]);
-      }
-    };
-    window.addEventListener(MESSAGE, aaa);
+    window.addEventListener(MESSAGE, interceptAgentLog);
 
     return () => {
-      window.removeEventListener(MESSAGE, aaa);
+      window.removeEventListener(MESSAGE, interceptAgentLog);
     };
 
   }, [log]);

@@ -1,16 +1,14 @@
 import React, { SyntheticEvent } from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import loadmillLogo from './loadmill_logo.png';
 import { Page } from './main';
+import { LoadmillTitle } from './loadmill-title';
 import { LINK_TO_LOADMILL_SECURITY } from '../constants';
 
 const theme = createTheme();
@@ -51,15 +49,7 @@ export const ConnectPage = ({ token, setToken, setPage }: {
             alignItems: 'center',
           } }
         >
-          <Avatar
-            src={ loadmillLogo }
-          />
-          <Typography
-            component='h1'
-            variant='h5'
-          >
-            Loadmill Agent
-          </Typography>
+          <LoadmillTitle/>
           <ConnectForm
             handleChangeToken={ handleChangeToken }
             handleStop={ handleStop }

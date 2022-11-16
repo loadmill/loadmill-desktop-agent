@@ -1,13 +1,16 @@
 import React, { Ref, useEffect, useRef, useState } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
+import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Grid from '@mui/material/Grid';
+import Tooltip from '@mui/material/Tooltip';
+
 import { useScrollDirection } from 'react-use-scroll-direction';
 
 import { Page } from './main';
+import { LoadmillTitle } from './loadmill-title';
 
 export const Console = ({ log, setPage }: {
   log: string[];
@@ -33,15 +36,36 @@ export const Console = ({ log, setPage }: {
 
   return (
     <div>
-      <div>
-        <Button onClick={ () => setPage('connect') }>Back</Button>
+      <div style={ { display: 'flex', justifyContent: 'space-between' } }>
+        <Tooltip
+          placement='right'
+          title='BACK'
+        >
+          <IconButton
+            onClick={ () => setPage('connect') }
+          >
+            <ArrowCircleLeftOutlinedIcon
+              color='primary'
+              fontSize='large'
+            />
+          </IconButton>
+        </Tooltip>
+        <LoadmillTitle/>
+        <Tooltip
+          placement='bottom'
+          title='Scroll to bottom'
+        >
+          <IconButton onClick={ onScrollToBottomClicked }>
+            <ArrowCircleDownIcon
+              color='primary'
+              fontSize='large'
+            />
+          </IconButton>
+        </Tooltip>
       </div>
-      <Button onClick={ onScrollToBottomClicked }>
-        Scroll To Bottom
-      </Button>
       <div
         onScroll={ () => isScrollingUp && onScrollUp() }
-        style={ { maxHeight: 500, overflow: 'auto' } }
+        style={ { overflow: 'scroll', maxHeight: '80%' } }
       >
         <ScrollableList
           isScrollingUp={ isScrollingUp }
@@ -76,34 +100,34 @@ export function ScrollableList({
   }, [log, isUserScrolled, scrollToBottom]);
 
   return (
-    <Box
-      sx={ { flexGrow: 1, maxWidth: 752 } }
-    >
-      <Grid
-        alignItems="flex-start"
-        columnSpacing={ 4 }
-        container
-      >
-        <Grid
-          item
-          md={ 6 }
-        >
-          <List dense>
-            {log.map((l, i) => (
-              <ListItem key={ i }>
-                <ListItemText
-                  primary={
-                    <span style={ { fontFamily: 'monospace' } }>
-                      {l}
-                    </span>
-                  }
-                />
-              </ListItem>
-            ))}
-            <ListItem ref={ scrollRef } />
-          </List>
-        </Grid>
-      </Grid>
-    </Box>
+    <List dense>
+      {log.map((l, i) => (
+        <LogEvent
+          event={ l }
+          i={ i }
+        />
+      ))}
+      <ListItem ref={ scrollRef } />
+    </List>
   );
 }
+
+const LogEvent = ({ event, i }: {event: string; i: number}): JSX.Element => {
+  const eventColor = event.includes('[INFO]') ? 'lightgreen' : 'red';
+  return (
+    <ListItem key={ i }>
+      <ListItemText
+        primary={
+          <span
+            style={ {
+              fontFamily: 'monospace',
+              color: eventColor,
+            } }
+          >
+            {event}
+          </span>
+        }
+      />
+    </ListItem>
+  );
+};
