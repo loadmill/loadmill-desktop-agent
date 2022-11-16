@@ -1,5 +1,4 @@
-import React, { Ref, useEffect, useRef, useState } from 'react';
-import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import React, { Ref, SyntheticEvent, useEffect, useRef, useState } from 'react';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -11,12 +10,18 @@ import { useScrollDirection } from 'react-use-scroll-direction';
 
 import { Page } from './main';
 import { LoadmillTitle } from './loadmill-title';
+import {
+  ScrollToBottomIconButton,
+  StopIconButton,
+} from './actions-icon-buttons';
 
 export const Console = ({
+  handleStop,
   isConnected,
   log,
   setPage,
 }: {
+  handleStop: (e: SyntheticEvent) => void;
   isConnected: boolean;
   log: string[];
   setPage: React.Dispatch<React.SetStateAction<Page>>;
@@ -49,8 +54,8 @@ export const Console = ({
         } }
       >
         <Tooltip
-          placement='right'
-          title='BACK'
+          placement='bottom'
+          title='Back'
         >
           <IconButton
             onClick={ () => setPage('connect') }
@@ -64,17 +69,15 @@ export const Console = ({
         <LoadmillTitle
           isConnected={ isConnected }
         />
-        <Tooltip
-          placement='bottom'
-          title='Scroll to bottom'
-        >
-          <IconButton onClick={ onScrollToBottomClicked }>
-            <ArrowCircleDownIcon
-              color='primary'
-              fontSize='large'
-            />
-          </IconButton>
-        </Tooltip>
+        <div>
+          <StopIconButton
+            disabled={ !isConnected }
+            onStopClicked={ handleStop }
+          />
+          <ScrollToBottomIconButton
+            onScrollToBottomClicked={ onScrollToBottomClicked }
+          />
+        </div>
       </div>
       <div
         onScroll={ () => isScrollingUp && onScrollUp() }

@@ -18,7 +18,7 @@ const subscribeToStartEvent = () => {
     if (!agent && token) {
       log.info('starting agent...');
       agent = spawnAgent(token);
-
+      handleAgentExit();
       if (agent) {
         if (agent.stdout) {
           pipeAgentStdout();
@@ -33,6 +33,13 @@ const subscribeToStartEvent = () => {
 
 const spawnAgent = (token: string): ChildProcessWithoutNullStreams => {
   return spawn(LOADMILL_AGENT, ['start', '-t', token]);
+};
+
+const handleAgentExit = () => {
+  agent.on('exit', () => {
+    log.info('in exit');
+    killAgent();
+  });
 };
 
 const pipeAgentStdout = () => {

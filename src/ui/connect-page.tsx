@@ -1,5 +1,4 @@
 import React, { SyntheticEvent } from 'react';
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -14,6 +13,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { Page } from './main';
 import { LoadmillTitle } from './loadmill-title';
+import {
+  GoToConsoleIconButton,
+  StopIconButton,
+} from './actions-icon-buttons';
 import { LINK_TO_LOADMILL_AGENT_DOCS, LINK_TO_LOADMILL_SECURITY } from '../constants';
 
 const theme = createTheme();
@@ -58,34 +61,34 @@ export const ConnectPage = ({
           alignItems: 'center',
         } }
       >
-        <Link
-          href={ LINK_TO_LOADMILL_AGENT_DOCS }
-          target='_blank'
+        <Tooltip
+          placement='bottom'
+          title='Docs'
         >
-          <IconButton>
-            <InfoOutlinedIcon
-              color='primary'
-              fontSize='large'
-            />
-          </IconButton>
-        </Link>
+          <Link
+            href={ LINK_TO_LOADMILL_AGENT_DOCS }
+            target='_blank'
+          >
+            <IconButton>
+              <InfoOutlinedIcon
+                color='primary'
+                fontSize='large'
+              />
+            </IconButton>
+          </Link>
+        </Tooltip>
         <LoadmillTitle
           isConnected={ isConnected }
         />
-        <Tooltip
-          placement='right'
-          title='Console'
-        >
-          <IconButton
-            onClick={ () => setPage('console') }
-          >
-            <ArrowCircleRightOutlinedIcon
-              color='primary'
-              fontSize='large'
-            />
-
-          </IconButton>
-        </Tooltip>
+        <div>
+          <StopIconButton
+            disabled={ !isConnected }
+            onStopClicked={ handleStop }
+          />
+          <GoToConsoleIconButton
+            onGoToConsoleClicked={ () => setPage('console') }
+          />
+        </div>
       </div>
       <Container
         component='main'
@@ -151,15 +154,6 @@ function ConnectForm({
         variant='contained'
       >
         Connect
-      </Button>
-      <Button
-        disabled={ !isConnected }
-        fullWidth
-        onClick={ handleStop }
-        sx={ { mt: 3, mb: 2 } }
-        variant='outlined'
-      >
-        Stop Agent
       </Button>
       <Grid container>
         <Grid

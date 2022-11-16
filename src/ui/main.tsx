@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { Console } from './console';
 import { ConnectPage } from './connect-page';
 import { isFromPreload } from '../inter-process-utils';
@@ -18,6 +18,10 @@ export const Main = (): JSX.Element => {
       if (lines.some(l => l.includes('[INFO] Successfully connected to Loadmill'))) {
         setIsConnected(true);
       }
+      if (lines.some(l => l.includes('[INFO] Shutting down gracefully')) ||
+         lines.some(l => l.includes('[ERROR] Disconnected from Loadmill'))) {
+        setIsConnected(false);
+      }
       setLog(prevLog => [...prevLog, ...lines]);
     }
   };
@@ -28,8 +32,12 @@ export const Main = (): JSX.Element => {
     return () => {
       window.removeEventListener(MESSAGE, interceptAgentLog);
     };
-
   }, [log]);
+
+  const handleStop = (_event: SyntheticEvent): void => {
+    setIsConnected(false);
+    window.api.stopAgent();
+  };
 
   if (page === 'connect') {
     return (
@@ -44,6 +52,7 @@ export const Main = (): JSX.Element => {
   } else if (page === 'console') {
     return (
       <Console
+        handleStop={ handleStop }
         isConnected={ isConnected }
         log={ log }
         setPage={ setPage }
