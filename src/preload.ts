@@ -6,6 +6,8 @@ import {
   LINK_TO_LOADMILL_SECURITY,
   RESTART_APP,
   START_AGENT,
+  STDERR,
+  STDOUT,
   STOP_AGENT,
   // UPDATE_AVAILABLE,
   // UPDATE_DOWNLOADED,
@@ -40,6 +42,16 @@ const windowLoaded = new Promise(resolve => {
 ipcRenderer.on(APP_VERSION, async (_event, arg: { [APP_VERSION]: string }) => {
   await windowLoaded;
   window.postMessage(APP_VERSION + ':' + arg[APP_VERSION]);
+});
+
+ipcRenderer.on(STDOUT, async (_event, msg: string) => {
+  await windowLoaded;
+  window.postMessage({ type: STDOUT, data: msg });
+});
+
+ipcRenderer.on(STDERR, async (_event, msg: string) => {
+  await windowLoaded;
+  window.postMessage({ type: STDERR, data: msg });
 });
 
 contextBridge.exposeInMainWorld(API, WINDOW_API);

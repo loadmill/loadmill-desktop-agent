@@ -89,8 +89,8 @@ export function ScrollableList({
           md={ 6 }
         >
           <List dense>
-            {log.map(l => (
-              <ListItem key={ l }>
+            {log.map((l, i) => (
+              <ListItem key={ i }>
                 <ListItemText
                   primary={
                     <span style={ { fontFamily: 'monospace' } }>

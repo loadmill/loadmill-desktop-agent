@@ -1,45 +1,76 @@
 import { ipcMain } from 'electron';
-import { ChildProcessByStdio, spawn } from 'child_process';
-import { Readable, Writable } from 'node:stream';
+import log from 'electron-log';
+import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 
-import { START_AGENT, STOP_AGENT } from './constants';
+import { send } from './main-to-renderer';
+import {
+  DATA,
+  LOADMILL_AGENT,
+  START_AGENT, STDERR,
+  STDOUT,
+  STOP_AGENT
+} from './constants';
 
-const CONSOLE = console;
-let agent: ChildProcessByStdio<Writable, Readable, Readable> | null;
+let agent: ChildProcessWithoutNullStreams | null;
 
-ipcMain.on(START_AGENT, (_event, token) => {
-  if (!agent && token) {
-    CONSOLE.log('starting agent...');
-    agent = spawn('loadmill-agent', ['start', '-t', token]);
+const subscribeToStartEvent = () => {
+  ipcMain.on(START_AGENT, (_event: Electron.IpcMainEvent, token: string) => {
+    if (!agent && token) {
+      log.info('starting agent...');
+      agent = spawnAgent(token);
 
-    if (agent) {
-      if (agent.stdout) {
-        agent.stdout.on('data', (data: string) => {
-          CONSOLE.log('stdout: ' + data);
-        });
-      }
-      if (agent.stderr) {
-        agent.stderr.on('data', (data: string) => {
-          CONSOLE.error('stderr: ' + data);
-          if (data && data.includes('Invalid token')) {
-            killAgent();
-          }
-        });
+      if (agent) {
+        if (agent.stdout) {
+          pipeAgentStdout();
+        }
+        if (agent.stderr) {
+          pipeAgentStderr();
+        }
       }
     }
-  }
-});
+  });
+};
 
-ipcMain.on(STOP_AGENT, (_event) => {
-  CONSOLE.log('stopping agent...');
-  killAgent();
-});
+const spawnAgent = (token: string): ChildProcessWithoutNullStreams => {
+  return spawn(LOADMILL_AGENT, ['start', '-t', token]);
+};
+
+const pipeAgentStdout = () => {
+  agent.stdout.on(DATA, (data: string | Buffer) => {
+    const text = Buffer.from(data).toString();
+    send(STDOUT, text);
+  });
+};
+
+const pipeAgentStderr = () => {
+  agent.stderr.on(DATA, (data: string | Buffer) => {
+    const text = Buffer.from(data).toString();
+    send(STDERR, text);
+    killAgentOnIvalidToken(text);
+  });
+};
+
+const killAgentOnIvalidToken = (data: string) => {
+  if (data && data.includes('Invalid token')) {
+    killAgent();
+  }
+};
 
 const killAgent = () => {
   if (agent) {
-    CONSOLE.log('Killing agent...');
+    log.info('Killing agent...');
     agent.removeAllListeners();
     agent.kill();
     agent = null;
   }
 };
+
+const subscribeToStopEvent = () => {
+  ipcMain.on(STOP_AGENT, (_event: Electron.IpcMainEvent) => {
+    log.info('stopping agent...');
+    killAgent();
+  });
+};
+
+subscribeToStartEvent();
+subscribeToStopEvent();
