@@ -1,5 +1,6 @@
 import React, { SyntheticEvent } from 'react';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import IconButton from '@mui/material/IconButton';
 import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
@@ -65,6 +66,26 @@ export const GoToConsoleIconButton = ({ onGoToConsoleClicked }:{ onGoToConsoleCl
             fontSize='large'
           />
 
+        </IconButton>
+      </Tooltip>
+    </>
+  );
+};
+
+export const GoBackIconButton = ({ onGoBackClicked }:{ onGoBackClicked: (e: SyntheticEvent) => void }): JSX.Element => {
+  return (
+    <>
+      <Tooltip
+        placement='bottom'
+        title='Back'
+      >
+        <IconButton
+          onClick={ onGoBackClicked }
+        >
+          <ArrowCircleLeftOutlinedIcon
+            color='primary'
+            fontSize='large'
+          />
         </IconButton>
       </Tooltip>
     </>

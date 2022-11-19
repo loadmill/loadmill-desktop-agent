@@ -1,6 +1,9 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { Console } from './console';
 import { ConnectPage } from './connect-page';
+import { Header } from './header';
+import { GoBackIconButton, GoToConsoleIconButton, ScrollToBottomIconButton } from './actions-icon-buttons';
+import { LinkToAgentDocs } from './link-to-agent-docs';
 import { isFromPreload } from '../inter-process-utils';
 import { MESSAGE, STDERR, STDOUT } from '../constants';
 
@@ -39,25 +42,50 @@ export const Main = (): JSX.Element => {
     window.api.stopAgent();
   };
 
-  if (page === 'connect') {
-    return (
-      <ConnectPage
-        isConnected={ isConnected }
-        setIsConnected={ setIsConnected }
-        setPage={ setPage }
-        setToken={ setToken }
-        token={ token }
-      />
-    );
-  } else if (page === 'console') {
-    return (
-      <Console
+  const scrollRef = useRef(null);
+
+  const scrollToBottom = (): void => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behaviour: 'smooth' });
+    }
+  };
+
+  return (
+    <>
+      <Header
         handleStop={ handleStop }
         isConnected={ isConnected }
-        log={ log }
-        setPage={ setPage }
+        leftActionButton={
+          (page === 'connect') ?
+            <LinkToAgentDocs/> :
+            <GoBackIconButton
+              onGoBackClicked={ () => setPage('connect') }
+            />
+        }
+        rightActionButton={
+          (page === 'connect') ?
+            <GoToConsoleIconButton
+              onGoToConsoleClicked={ () => setPage('console') }
+            /> :
+            <ScrollToBottomIconButton
+              onScrollToBottomClicked={ scrollToBottom }
+            />
+        }
       />
-    );
-  }
-  return <></>;
+      { (page === 'connect') ? (
+        <ConnectPage
+          isConnected={ isConnected }
+          setPage={ setPage }
+          setToken={ setToken }
+          token={ token }
+        />
+      ) : (
+        <Console
+          log={ log }
+          scrollRef={ scrollRef }
+          scrollToBottom={ scrollToBottom }
+        />
+      ) }
+    </>
+  );
 };

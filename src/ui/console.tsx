@@ -1,73 +1,20 @@
-import React, { Ref, SyntheticEvent, useEffect, useRef } from 'react';
-import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
-import IconButton from '@mui/material/IconButton';
+import React, { Ref, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Tooltip from '@mui/material/Tooltip';
-
-import { Page } from './main';
-import { LoadmillTitle } from './loadmill-title';
-import {
-  ScrollToBottomIconButton,
-  StopIconButton,
-} from './actions-icon-buttons';
 
 export const Console = ({
-  handleStop,
-  isConnected,
   log,
-  setPage,
+  scrollToBottom,
+  scrollRef,
 }: {
-  handleStop: (e: SyntheticEvent) => void;
-  isConnected: boolean;
   log: string[];
-  setPage: React.Dispatch<React.SetStateAction<Page>>;
+  scrollRef: Ref<HTMLLIElement>;
+  scrollToBottom: () => void;
 }): JSX.Element => {
-
-  const scrollRef = useRef(null);
-
-  const scrollToBottom = (): void => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behaviour: 'smooth' });
-    }
-  };
 
   return (
     <div>
-      <div
-        style={ {
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        } }
-      >
-        <Tooltip
-          placement='bottom'
-          title='Back'
-        >
-          <IconButton
-            onClick={ () => setPage('connect') }
-          >
-            <ArrowCircleLeftOutlinedIcon
-              color='primary'
-              fontSize='large'
-            />
-          </IconButton>
-        </Tooltip>
-        <LoadmillTitle
-          isConnected={ isConnected }
-        />
-        <div>
-          <StopIconButton
-            disabled={ !isConnected }
-            onStopClicked={ handleStop }
-          />
-          <ScrollToBottomIconButton
-            onScrollToBottomClicked={ scrollToBottom }
-          />
-        </div>
-      </div>
       <div
         style={ { overflow: 'scroll', maxHeight: 650 } }
       >
@@ -112,9 +59,9 @@ export function ScrollableList({
 
 const LogEvent = ({ event }: { event: string; }): JSX.Element => {
   const eventColor = event.includes('[INFO]') ?
-    'lightgreen' :
+    '#aae682' :
     event.includes('[ERROR]') ?
-      'red' :
+      '#ff7878' :
       'inherit';
   return (
     <ListItem >

@@ -1,35 +1,26 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
-import Tooltip from '@mui/material/Tooltip';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { Page } from './main';
-import { LoadmillTitle } from './loadmill-title';
-import {
-  GoToConsoleIconButton,
-  StopIconButton,
-} from './actions-icon-buttons';
-import { LINK_TO_LOADMILL_AGENT_DOCS, LINK_TO_LOADMILL_SECURITY } from '../constants';
+
+import { LINK_TO_LOADMILL_SECURITY } from '../constants';
 
 const theme = createTheme();
 
 export const ConnectPage = ({
   isConnected,
-  setIsConnected,
   setPage,
   setToken,
   token,
 }: {
   isConnected: boolean;
-  setIsConnected: React.Dispatch<React.SetStateAction<boolean>>;
   setPage: React.Dispatch<React.SetStateAction<Page>>;
   setToken: React.Dispatch<React.SetStateAction<string>>;
   token: string;
@@ -46,50 +37,9 @@ export const ConnectPage = ({
     setPage('console');
   };
 
-  const handleStop = (_event: SyntheticEvent) => {
-    setIsConnected(false);
-    window.api.stopAgent();
-  };
-
   return (
     <ThemeProvider theme={ theme }>
       <CssBaseline />
-      <div
-        style={ {
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        } }
-      >
-        <Tooltip
-          placement='bottom'
-          title='Docs'
-        >
-          <Link
-            href={ LINK_TO_LOADMILL_AGENT_DOCS }
-            target='_blank'
-          >
-            <IconButton>
-              <InfoOutlinedIcon
-                color='primary'
-                fontSize='large'
-              />
-            </IconButton>
-          </Link>
-        </Tooltip>
-        <LoadmillTitle
-          isConnected={ isConnected }
-        />
-        <div>
-          <StopIconButton
-            disabled={ !isConnected }
-            onStopClicked={ handleStop }
-          />
-          <GoToConsoleIconButton
-            onGoToConsoleClicked={ () => setPage('console') }
-          />
-        </div>
-      </div>
       <Container
         component='main'
         maxWidth='xs'
@@ -104,7 +54,6 @@ export const ConnectPage = ({
         >
           <ConnectForm
             handleChangeToken={ handleChangeToken }
-            handleStop={ handleStop }
             handleSubmit={ handleSubmit }
             isConnected={ isConnected }
             token={ token }
@@ -118,12 +67,10 @@ export const ConnectPage = ({
 function ConnectForm({
   handleChangeToken,
   handleSubmit,
-  handleStop,
   isConnected,
   token,
 }: {
   handleChangeToken: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleStop: (_event: SyntheticEvent) => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   isConnected: boolean;
   token: string;
@@ -138,6 +85,7 @@ function ConnectForm({
       <TextField
         autoComplete='Token'
         autoFocus
+        disabled={ isConnected }
         fullWidth
         id='token'
         label='Token'
