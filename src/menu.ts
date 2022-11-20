@@ -1,6 +1,6 @@
 import { app, Menu } from 'electron';
 import { READY } from './constants';
-import { checkForUpdates } from './auto-update';
+import { checkForUpdates } from './updates';
 
 const isMac = process.platform === 'darwin';
 
