@@ -32,12 +32,14 @@ const subscribeToStartEvent = () => {
 };
 
 const spawnAgent = (token: string): ChildProcessWithoutNullStreams => {
-  return spawn(LOADMILL_AGENT, ['start', '-t', token], { env: {
-    ...process.env,
-    LOADMILL_AGENT_SERVER_URL: 'http://localhost:8090',
-    NODE_TLS_REJECT_UNAUTHORIZED: '0',
+  return spawn(LOADMILL_AGENT, ['start', '-t', token], {
+    // env: {
+    //   ...process.env,
+    // LOADMILL_AGENT_SERVER_URL: 'http://localhost:8090',
+    // NODE_TLS_REJECT_UNAUTHORIZED: '0',
     // LOADMILL_AGENT_VERBOSE: 'true',
-  } });
+    // }
+  });
 };
 
 const handleAgentExit = () => {
