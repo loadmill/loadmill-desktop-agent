@@ -7,13 +7,13 @@ module.exports = [
     use: 'node-loader',
   },
   {
-    test: /\.(m?js|node)$/,
     parser: {
       amd: false,
       javascript: {
         commonjsMagicComments: true
       }
     },
+    test: /\.(m?js|node)$/,
     use: {
       loader: '@vercel/webpack-asset-relocator-loader',
       options: {
@@ -22,13 +22,20 @@ module.exports = [
     },
   },
   {
-    test: /\.tsx?$/,
     exclude: /(node_modules|\.webpack)/,
+    test: /\.tsx?$/,
     use: {
       loader: 'ts-loader',
       options: {
         transpileOnly: true,
       },
     },
+  },
+  {
+    loader: 'file-loader',
+    options: {
+      outputPath: 'images',
+    },
+    test: /\.(png|jpe?g|gif)$/i,
   },
 ];

@@ -1,20 +1,90 @@
 import { ipcMain } from 'electron';
+import log from 'electron-log';
+import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 
-import { start } from '@loadmill/agent';
-import { START_AGENT, STOP_AGENT } from './constants';
+import { send } from './main-to-renderer';
+import {
+  DATA,
+  LOADMILL_AGENT,
+  START_AGENT, STDERR,
+  STDOUT,
+  STOP_AGENT
+} from './constants';
 
-let stop: () => void;
+let agent: ChildProcessWithoutNullStreams | null;
 
-ipcMain.on(START_AGENT, (_event, token) => {
-  if (token) {
-    console.log('starting agent...');
-    stop = start({ token });
+const subscribeToStartEvent = () => {
+  ipcMain.on(START_AGENT, (_event: Electron.IpcMainEvent, token: string) => {
+    if (!agent && token) {
+      log.info('starting agent...');
+      agent = spawnAgent(token);
+      handleAgentExit();
+      if (agent) {
+        if (agent.stdout) {
+          pipeAgentStdout();
+        }
+        if (agent.stderr) {
+          pipeAgentStderr();
+        }
+      }
+    }
+  });
+};
+
+const spawnAgent = (token: string): ChildProcessWithoutNullStreams => {
+  return spawn(LOADMILL_AGENT, ['start', '-t', token], {
+    // env: {
+    //   ...process.env,
+    // LOADMILL_AGENT_SERVER_URL: 'http://localhost:8090',
+    // NODE_TLS_REJECT_UNAUTHORIZED: '0',
+    // LOADMILL_AGENT_VERBOSE: 'true',
+    // }
+  });
+};
+
+const handleAgentExit = () => {
+  agent.on('exit', () => {
+    log.info('in exit');
+    killAgent();
+  });
+};
+
+const pipeAgentStdout = () => {
+  agent.stdout.on(DATA, (data: string | Buffer) => {
+    const text = Buffer.from(data).toString();
+    send(STDOUT, text);
+  });
+};
+
+const pipeAgentStderr = () => {
+  agent.stderr.on(DATA, (data: string | Buffer) => {
+    const text = Buffer.from(data).toString();
+    send(STDERR, text);
+    killAgentOnIvalidToken(text);
+  });
+};
+
+const killAgentOnIvalidToken = (data: string) => {
+  if (data && data.includes('Invalid token')) {
+    killAgent();
   }
-});
+};
 
-ipcMain.on(STOP_AGENT, (_event) => {
-  if (stop) {
-    console.log('stopping agent...');
-    stop();
+const killAgent = () => {
+  if (agent) {
+    log.info('Killing agent...');
+    agent.removeAllListeners();
+    agent.kill();
+    agent = null;
   }
-});
+};
+
+const subscribeToStopEvent = () => {
+  ipcMain.on(STOP_AGENT, (_event: Electron.IpcMainEvent) => {
+    log.info('stopping agent...');
+    killAgent();
+  });
+};
+
+subscribeToStartEvent();
+subscribeToStopEvent();

@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
-
-import { Home } from './ui/home';
+import { Main } from './ui/main';
 
 function render() {
   const container = document.getElementById('root');
   const root = createRoot(container);
-  root.render(<Home/>);
+  root.render(<Main/>);
 }
 
 render();
