@@ -1,6 +1,5 @@
 import { app, BrowserWindow, shell } from 'electron';
 import './agent-handlers';
-import './app-version';
 import './update-electron-app';
 import './menu';
 import { init as initMainToRenderer } from './main-to-renderer';
