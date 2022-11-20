@@ -2,6 +2,7 @@ export const
   ACTIVATE = 'activate',
   API = 'api',
   APP_VERSION = 'app_version',
+  CHECK_FOR_UPDATES = 'check_for_updates',
   DATA = 'data',
   GET_APP_VERSION = 'getAppVersion',
   MESSAGE = 'message',

@@ -1,5 +1,6 @@
 import { app, Menu } from 'electron';
 import { READY } from './constants';
+import { checkForUpdates } from './auto-update';
 
 const isMac = process.platform === 'darwin';
 
@@ -9,6 +10,11 @@ const template = [
     label: app.name,
     submenu: [
       { role: 'about' },
+      { type: 'separator' },
+      {
+        click: () => checkForUpdates(),
+        label: 'Check for Updates...',
+      },
       { type: 'separator' },
       { role: 'services' },
       { type: 'separator' },
@@ -90,11 +96,11 @@ const template = [
     role: 'help',
     submenu: [
       {
-        label: 'Learn More',
         click: async () => {
           const { shell } = require('electron');
           await shell.openExternal('https://loadmill.com');
-        }
+        },
+        label: 'Learn More',
       }
     ]
   }
