@@ -66,7 +66,6 @@
     "file-loader": "^6.2.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-use-scroll-direction": "^0.1.0",
     "update-electron-app": "^2.0.1"
   }
 }
