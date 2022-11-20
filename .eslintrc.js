@@ -73,6 +73,8 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': ['error'],
     '@typescript-eslint/no-var-requires': 'off',
     'brace-style': ['error'],
+    'comma-spacing': ['error', { 'after': true, 'before': false, }],
+    'comma-style': ['error', 'last'],
     'curly': ['error'],
     'eol-last': ['error'],
     'eslint-comments/no-use': 'error',
