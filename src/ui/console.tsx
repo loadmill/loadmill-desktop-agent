@@ -16,7 +16,10 @@ export const Console = ({
   return (
     <div>
       <div
-        style={ { overflow: 'scroll', maxHeight: 650 } }
+        style={ {
+          maxHeight: 650,
+          overflow: 'scroll',
+        } }
       >
         <ScrollableList
           log={ log }
@@ -69,8 +72,8 @@ const LogEvent = ({ event }: { event: string; }): JSX.Element => {
         primary={
           <span
             style={ {
-              fontFamily: 'monospace',
               color: eventColor,
+              fontFamily: 'monospace',
             } }
           >
             {event}

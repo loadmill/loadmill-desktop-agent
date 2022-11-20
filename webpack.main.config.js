@@ -5,13 +5,11 @@ module.exports = {
    */
   entry: './src/index.ts',
   // Put your normal webpack config below here
+  externals: {
+    vm2: 'vm2'
+  },
   module: {
     rules: require('./webpack.rules'),
-  },
-  resolve: {
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
-    alias: { type: 'type-component' },
-    // preferRelative: true,
   },
   node: {
     __dirname: true
@@ -19,7 +17,9 @@ module.exports = {
   optimization: {
     minimize: true
   },
-  externals: {
-    vm2: 'vm2'
-  }
+  resolve: {
+    alias: { type: 'type-component' },
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
+    // preferRelative: true,
+  },
 };

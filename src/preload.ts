@@ -15,10 +15,10 @@ import {
 
 export const WINDOW_API = {
   getVersion: (msg?: string): void => ipcRenderer.send(GET_APP_VERSION, msg),
+  linkToLoadmillSecurity: (msg?: string): void => ipcRenderer.send(LINK_TO_LOADMILL_SECURITY, msg),
   restartApp: (msg?: string): void => ipcRenderer.send(RESTART_APP, msg),
   startAgent: (msg: string): void => ipcRenderer.send(START_AGENT, msg),
   stopAgent: (msg?: string): void => ipcRenderer.send(STOP_AGENT, msg),
-  linkToLoadmillSecurity: (msg?: string): void => ipcRenderer.send(LINK_TO_LOADMILL_SECURITY, msg),
 };
 
 const windowLoaded = new Promise(resolve => {
@@ -46,12 +46,12 @@ ipcRenderer.on(APP_VERSION, async (_event, arg: { [APP_VERSION]: string }) => {
 
 ipcRenderer.on(STDOUT, async (_event, msg: string) => {
   await windowLoaded;
-  window.postMessage({ type: STDOUT, data: msg });
+  window.postMessage({ data: msg, type: STDOUT });
 });
 
 ipcRenderer.on(STDERR, async (_event, msg: string) => {
   await windowLoaded;
-  window.postMessage({ type: STDERR, data: msg });
+  window.postMessage({ data: msg, type: STDERR });
 });
 
 contextBridge.exposeInMainWorld(API, WINDOW_API);

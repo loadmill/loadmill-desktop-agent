@@ -1,41 +1,12 @@
 require('dotenv').config();
 
 module.exports = {
-  packagerConfig: {
-    osxSign: {
-      identity: `Developer ID Application: Loadmill LTD (${process.env.LOADMILL_KEY_CODE})`,
-      'hardened-runtime': true,
-      entitlements: 'entitlements.plist',
-      'entitlements-inherit': 'entitlements.plist',
-      'signature-flags': 'library'
-    },
-    osxNotarize: {
-      tool: 'notarytool',
-      appleId: process.env.APPLE_ID,
-      appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
-      teamId: process.env.LOADMILL_KEY_CODE,
-    }
-  },
-  publishers: [
-    {
-      name: '@electron-forge/publisher-github',
-      config: {
-        repository: {
-          owner: 'loadmill',
-          name: 'loadmill-desktop-agent'
-        },
-        authToken: process.env.GITHUB_TOKEN,
-        prerelease: false,
-        draft: false,
-      }
-    }
-  ],
   makers: [
     {
-      'name': '@electron-forge/maker-squirrel',
       'config': {
         'name': 'loadmill_desktop_agent'
-      }
+      },
+      'name': '@electron-forge/maker-squirrel',
     },
     {
       'name': '@electron-forge/maker-zip',
@@ -44,6 +15,21 @@ module.exports = {
       ]
     },
   ],
+  packagerConfig: {
+    osxNotarize: {
+      appleId: process.env.APPLE_ID,
+      appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
+      teamId: process.env.LOADMILL_KEY_CODE,
+      tool: 'notarytool',
+    },
+    osxSign: {
+      entitlements: 'entitlements.plist',
+      'entitlements-inherit': 'entitlements.plist',
+      'hardened-runtime': true,
+      identity: `Developer ID Application: Loadmill LTD (${process.env.LOADMILL_KEY_CODE})`,
+      'signature-flags': 'library',
+    },
+  },
   plugins: [
     [
       '@electron-forge/plugin-webpack',
@@ -73,5 +59,19 @@ module.exports = {
         'includeDeps': true
       }
     ]
-  ]
+  ],
+  publishers: [
+    {
+      config: {
+        authToken: process.env.GITHUB_TOKEN,
+        draft: false,
+        prerelease: false,
+        repository: {
+          name: 'loadmill-desktop-agent',
+          owner: 'loadmill',
+        },
+      },
+      name: '@electron-forge/publisher-github',
+    }
+  ],
 };

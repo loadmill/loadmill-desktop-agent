@@ -12,9 +12,9 @@ export const LoadmillTitle = ({
   return (
     <div
       style={ {
+        alignItems: 'center',
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center',
       } }
     >
       <Avatar

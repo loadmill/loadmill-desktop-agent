@@ -46,10 +46,10 @@ export const ConnectPage = ({
       >
         <Box
           sx={ {
-            marginTop: 8,
+            alignItems: 'center',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            marginTop: 8,
           } }
         >
           <ConnectForm
@@ -97,7 +97,7 @@ function ConnectForm({
       <Button
         disabled={ !token }
         fullWidth
-        sx={ { mt: 3, mb: 2 } }
+        sx={ { mb: 2, mt: 3 } }
         type='submit'
         variant='contained'
       >

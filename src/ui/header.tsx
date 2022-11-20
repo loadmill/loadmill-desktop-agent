@@ -13,9 +13,9 @@ export const Header: React.FC<HeaderProps> = ({
 }): JSX.Element => (
   <div
     style={ {
+      alignItems: 'center',
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: 'center',
     } }
   >
     { leftActionButton }
