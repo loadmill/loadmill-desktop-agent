@@ -16,7 +16,7 @@ module.exports = {
     },
   ],
   packagerConfig: {
-    icon: './images/icon',
+    icon: './images/MyIcon',
     osxNotarize: {
       appleId: process.env.APPLE_ID,
       appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
