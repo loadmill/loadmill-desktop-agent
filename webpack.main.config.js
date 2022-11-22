@@ -6,7 +6,7 @@ module.exports = {
   entry: './src/index.ts',
   // Put your normal webpack config below here
   externals: {
-    vm2: 'vm2'
+    vm2: 'vm2',
   },
   module: {
     rules: require('./webpack.rules'),

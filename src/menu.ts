@@ -10,7 +10,6 @@ const template = [
     label: app.name,
     submenu: [
       { role: 'about' },
-      { type: 'separator' },
       {
         click: () => checkForUpdates(),
         label: 'Check for Updates...',

@@ -2,6 +2,8 @@ import { app, autoUpdater, dialog, ipcMain } from 'electron';
 import log from 'electron-log';
 import { CHECK_FOR_UPDATES, UPDATE_DOWNLOADED, UPDATE_NOT_AVAILABLE } from './constants';
 
+let shouldShowUpToDatePopup = false;
+
 export const checkForUpdates = (): void => {
   log.info('User request: Check for updates...');
   if (app.isPackaged) {
@@ -10,6 +12,7 @@ export const checkForUpdates = (): void => {
 };
 
 ipcMain.on(CHECK_FOR_UPDATES, (_event) => {
+  shouldShowUpToDatePopup = true;
   checkForUpdates();
 });
 
@@ -47,18 +50,23 @@ export const overrideOnUpdateDownloadedListener = (): void => {
 };
 
 const showNoUpdatesDialog = async (): Promise<void> => {
-  log.info(UPDATE_NOT_AVAILABLE);
+  if (shouldShowUpToDatePopup) {
+    log.info(UPDATE_NOT_AVAILABLE);
 
-  const noUpdatesDialogOpts: Electron.MessageBoxOptions = {
-    buttons: ['OK'],
-    detail: 'You’ve got the latest version of Loadmill Desktop Agent',
-    message: 'Your agent is up to date',
-    type: 'info',
-  };
+    const noUpdatesDialogOpts: Electron.MessageBoxOptions = {
+      buttons: ['OK'],
+      detail: 'You’ve got the latest version of Loadmill Desktop Agent',
+      message: 'Your agent is up to date',
+      type: 'info',
+    };
 
-  await dialog.showMessageBox(noUpdatesDialogOpts);
+    await dialog.showMessageBox(noUpdatesDialogOpts);
+    shouldShowUpToDatePopup = false;
+  }
 };
 
 export const overrideOnUpdateNotAvailableListener = (): void => {
-  autoUpdater.on(UPDATE_NOT_AVAILABLE, showNoUpdatesDialog);
+  if (app.isPackaged) {
+    autoUpdater.on(UPDATE_NOT_AVAILABLE, showNoUpdatesDialog);
+  }
 };
