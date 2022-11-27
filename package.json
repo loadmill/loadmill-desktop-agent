@@ -1,8 +1,8 @@
 {
   "name": "loadmill-desktop-agent",
-  "productName": "Loadmill Desktop Agent",
+  "productName": "Loadmill Desktop App",
   "version": "0.0.7",
-  "description": "Loadmill users can use this desktop agent to run API and Load tests locally or on their servers.",
+  "description": "The Loadmill desktop app",
   "author": {
     "name": "Gilad Gur Andelman",
     "email": "gilad@loadmill.com"

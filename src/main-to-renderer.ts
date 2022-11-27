@@ -10,18 +10,20 @@ const MainToRender = {
 };
 
 export const init = (mainWindow: BrowserWindow): void => {
-  if (!MainToRender.mainWindow) {
-    MainToRender.mainWindow = mainWindow;
-  }
+  MainToRender.mainWindow = mainWindow;
 };
 
 export const send = (channel: string, msg: string): void => {
-  log.debug('Sending to renderer', { channel, msg });
-  if (MainToRender.mainWindow) {
-    MainToRender.mainWindow.webContents.send(channel, msg);
-  } else {
-    log.warn('Cannot send from Main process to Renderer Process. Reason: No mainWindow on MainToRender object.', {
-      channel, msg
-    });
+  try {
+    log.debug('Sending to renderer', { channel, msg });
+    if (MainToRender.mainWindow) {
+      MainToRender.mainWindow.webContents.send(channel, msg);
+    } else {
+      log.warn('Cannot send from Main process to Renderer Process. Reason: No mainWindow on MainToRender object.', {
+        channel, msg
+      });
+    }
+  } catch (e) {
+    log.error('error in send main to renderer', e);
   }
 };

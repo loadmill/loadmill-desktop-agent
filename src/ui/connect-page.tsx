@@ -108,13 +108,13 @@ function ConnectForm({
           item
           xs
         >
+          Need a Loadmill token? Click {' '}
           <Link
             href={ LINK_TO_LOADMILL_SECURITY }
             target='_blank'
             underline='hover'
-            variant='body2'
           >
-            Generate a Loadmill token
+            here
           </Link>
         </Grid>
       </Grid>

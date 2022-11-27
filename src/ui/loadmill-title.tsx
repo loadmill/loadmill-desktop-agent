@@ -26,9 +26,10 @@ export const LoadmillTitle = ({
       >
         Loadmill Agent
       </Typography>
-      <PulseCircle
-        color={ isConnected ? 'green' : 'red' }
-      />
+      {
+        isConnected &&
+          <PulseCircle/>
+      }
     </div>
   );
 };

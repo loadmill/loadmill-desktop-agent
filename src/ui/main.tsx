@@ -79,6 +79,7 @@ export const Main = (): JSX.Element => {
         rightActionButton={
           (page === 'connect') ?
             <GoToConsoleIconButton
+              disabled={ log.length === 0 }
               onGoToConsoleClicked={ () => setPage('console') }
             /> :
             <ScrollToBottomIconButton

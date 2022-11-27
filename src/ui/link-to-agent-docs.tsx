@@ -11,17 +11,19 @@ export const LinkToAgentDocs: React.FC<LinkToAgentDocsProps> = (): JSX.Element =
     placement='bottom'
     title='Docs'
   >
-    <Link
-      href={ LINK_TO_LOADMILL_AGENT_DOCS }
-      target='_blank'
-    >
-      <IconButton>
-        <InfoOutlinedIcon
-          color='primary'
-          fontSize='large'
-        />
-      </IconButton>
-    </Link>
+    <span>
+      <Link
+        href={ LINK_TO_LOADMILL_AGENT_DOCS }
+        target='_blank'
+      >
+        <IconButton>
+          <InfoOutlinedIcon
+            color='primary'
+            fontSize='large'
+          />
+        </IconButton>
+      </Link>
+    </span>
   </Tooltip>
 );
 

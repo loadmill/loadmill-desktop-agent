@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const PulseCircle = ({ color }: { color: 'green' | 'red' }): JSX.Element => {
+export const PulseCircle = (): JSX.Element => {
   return (
     <div
-      className={ `${color}-pulse` }
+      className='green-pulse'
       style={ { marginLeft: 16 } }
     >
       <p></p>

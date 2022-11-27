@@ -1,6 +1,6 @@
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
+import ReadMoreOutlinedIcon from '@mui/icons-material/ReadMoreOutlined';
 import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
@@ -19,15 +19,17 @@ export const StopIconButton = ({
         placement='bottom'
         title='Stop Agent'
       >
-        <IconButton
-          disabled={ disabled }
-          onClick={ onStopClicked }
-        >
-          <StopCircleOutlinedIcon
-            color={ disabled ? 'disabled' : 'primary' }
-            fontSize='large'
-          />
-        </IconButton>
+        <span>
+          <IconButton
+            disabled={ disabled }
+            onClick={ onStopClicked }
+          >
+            <StopCircleOutlinedIcon
+              color={ disabled ? 'disabled' : 'primary' }
+              fontSize='large'
+            />
+          </IconButton>
+        </span>
       </Tooltip>
     </>
   );
@@ -40,33 +42,44 @@ export const ScrollToBottomIconButton = ({ onScrollToBottomClicked }:{ onScrollT
         placement='bottom'
         title='Scroll to bottom'
       >
-        <IconButton onClick={ onScrollToBottomClicked }>
-          <ArrowCircleDownIcon
-            color='primary'
-            fontSize='large'
-          />
-        </IconButton>
+        <span>
+          <IconButton onClick={ onScrollToBottomClicked }>
+            <ArrowCircleDownIcon
+              color='primary'
+              fontSize='large'
+            />
+          </IconButton>
+        </span>
       </Tooltip>
     </>
   );
 };
 
-export const GoToConsoleIconButton = ({ onGoToConsoleClicked }:{ onGoToConsoleClicked: (e: SyntheticEvent) => void }): JSX.Element => {
+export const GoToConsoleIconButton = ({
+  disabled,
+  onGoToConsoleClicked
+}:{
+  disabled: boolean,
+  onGoToConsoleClicked: (e: SyntheticEvent) => void
+}): JSX.Element => {
   return (
     <>
       <Tooltip
         placement='bottom'
-        title='Console'
+        title='See Logs'
       >
-        <IconButton
-          onClick={ onGoToConsoleClicked }
-        >
-          <ArrowCircleRightOutlinedIcon
-            color='primary'
-            fontSize='large'
-          />
+        <span>
+          <IconButton
+            disabled={ disabled }
+            onClick={ onGoToConsoleClicked }
+          >
+            <ReadMoreOutlinedIcon
+              color={ disabled ? 'disabled' : 'primary' }
+              fontSize='large'
+            />
 
-        </IconButton>
+          </IconButton>
+        </span>
       </Tooltip>
     </>
   );
@@ -79,14 +92,16 @@ export const GoBackIconButton = ({ onGoBackClicked }:{ onGoBackClicked: (e: Synt
         placement='bottom'
         title='Back'
       >
-        <IconButton
-          onClick={ onGoBackClicked }
-        >
-          <ArrowCircleLeftOutlinedIcon
-            color='primary'
-            fontSize='large'
-          />
-        </IconButton>
+        <span>
+          <IconButton
+            onClick={ onGoBackClicked }
+          >
+            <ArrowCircleLeftOutlinedIcon
+              color='primary'
+              fontSize='large'
+            />
+          </IconButton>
+        </span>
       </Tooltip>
     </>
   );
