@@ -1,6 +1,7 @@
 import { app, autoUpdater, dialog, ipcMain } from 'electron';
-import log from 'electron-log';
+
 import { CHECK_FOR_UPDATES, UPDATE_DOWNLOADED, UPDATE_NOT_AVAILABLE } from './constants';
+import log from './log';
 
 let shouldShowUpToDatePopup = false;
 

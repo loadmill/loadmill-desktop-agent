@@ -9,4 +9,9 @@ declare global {
       stopAgent: (msg?: string) => void;
     }
   }
+
+  type ParentProcessMessage = {
+    data?: string;
+    type: typeof START_AGENT | typeof STOP_AGENT;
+  }
 }

@@ -1,15 +1,17 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { Console } from './console';
-import { ConnectPage } from './connect-page';
-import { Header } from './header';
+
 import {
   GoBackIconButton,
   GoToConsoleIconButton,
   ScrollToBottomIconButton
 } from './actions-icon-buttons';
+import { ConnectPage } from './connect-page';
+import { Console } from './console';
+import { Header } from './header';
 import { LinkToAgentDocs } from './link-to-agent-docs';
-import { isFromPreload } from '../inter-process-utils';
+
 import { MESSAGE, STDERR, STDOUT } from '../constants';
+import { isFromPreload } from '../inter-process-utils';
 
 export type Page = 'connect' | 'console';
 
@@ -20,7 +22,11 @@ export const Main = (): JSX.Element => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const interceptAgentLog = (event: MessageEvent<{ data: string; type: string; }>) => {
-    if (isFromPreload(event) && [STDOUT, STDERR].includes(event.data?.type)) {
+    if (
+      isFromPreload(event) &&
+      [STDOUT, STDERR].includes(event.data?.type) &&
+      (event.data?.data.includes('[INFO]') || event.data?.data.includes('[ERROR]'))
+    ) {
       const lines = event.data.data.split('\n').filter(l => l && l.trim());
       if (lines.some(l => l.includes('[INFO] Successfully connected to Loadmill'))) {
         setIsConnected(true);

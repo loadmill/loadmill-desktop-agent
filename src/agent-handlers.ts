@@ -1,57 +1,60 @@
-import { ipcMain } from 'electron';
-import log from 'electron-log';
-import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
+import { app, ipcMain } from 'electron';
 
-import { send } from './main-to-renderer';
+import { ChildProcessWithoutNullStreams, fork } from 'child_process';
+
+import '@loadmill/agent/dist/cli';
 import {
   DATA,
   LOADMILL_AGENT,
-  START_AGENT, STDERR,
+  START_AGENT,
+  STDERR,
   STDOUT,
   STOP_AGENT
 } from './constants';
+import log from './log';
+import { send } from './main-to-renderer';
 
 let agent: ChildProcessWithoutNullStreams | null;
 
 const subscribeToStartEvent = () => {
   ipcMain.on(START_AGENT, (_event: Electron.IpcMainEvent, token: string) => {
-    if (!agent && token) {
-      log.info('starting agent...');
-      agent = spawnAgent(token);
-      handleAgentExit();
-      if (agent) {
-        if (agent.stdout) {
-          pipeAgentStdout();
-        }
-        if (agent.stderr) {
-          pipeAgentStderr();
-        }
+    if (!agent) {
+      log.info('starting agent process...');
+      agent = spawnAgent();
+      addOnAgentProcessExit();
+      if (agent.stdout) {
+        log.info('piping agent process stdout');
+        pipeAgentStdout();
       }
+      if (agent.stderr) {
+        pipeAgentStderr();
+      }
+    }
+    if (agent && token) {
+      sendToAgentProcess({
+        data: token,
+        type: START_AGENT,
+      });
     }
   });
 };
 
-const spawnAgent = (token: string): ChildProcessWithoutNullStreams => {
-  return spawn(LOADMILL_AGENT, ['start', '-t', token], {
-    // env: {
-    //   ...process.env,
-    // LOADMILL_AGENT_SERVER_URL: 'http://localhost:8090',
-    // NODE_TLS_REJECT_UNAUTHORIZED: '0',
-    // LOADMILL_AGENT_VERBOSE: 'true',
-    // }
+const spawnAgent = (): ChildProcessWithoutNullStreams => {
+  return fork(app.getAppPath() + '/.webpack/main/' + LOADMILL_AGENT, {
+    stdio: 'pipe',
   });
 };
 
-const handleAgentExit = () => {
-  agent.on('exit', () => {
-    log.info('in exit');
-    killAgent();
+const addOnAgentProcessExit = () => {
+  agent.on('exit', (code) => {
+    log.info('Agent process exited with code:', code);
   });
 };
 
 const pipeAgentStdout = () => {
   agent.stdout.on(DATA, (data: string | Buffer) => {
     const text = Buffer.from(data).toString();
+    log.info('Agent:', text);
     send(STDOUT, text);
   });
 };
@@ -59,32 +62,23 @@ const pipeAgentStdout = () => {
 const pipeAgentStderr = () => {
   agent.stderr.on(DATA, (data: string | Buffer) => {
     const text = Buffer.from(data).toString();
+    log.info('Agent:', text);
     send(STDERR, text);
-    killAgentOnIvalidToken(text);
   });
-};
-
-const killAgentOnIvalidToken = (data: string) => {
-  if (data && data.includes('Invalid token')) {
-    killAgent();
-  }
-};
-
-const killAgent = () => {
-  if (agent) {
-    log.info('Killing agent...');
-    agent.removeAllListeners();
-    agent.kill();
-    agent = null;
-  }
 };
 
 const subscribeToStopEvent = () => {
   ipcMain.on(STOP_AGENT, (_event: Electron.IpcMainEvent) => {
     log.info('stopping agent...');
-    killAgent();
+    sendToAgentProcess({ type: STOP_AGENT });
   });
 };
 
 subscribeToStartEvent();
 subscribeToStopEvent();
+
+const sendToAgentProcess = (msg: ParentProcessMessage) => {
+  if (agent) {
+    agent.send(msg);
+  }
+};

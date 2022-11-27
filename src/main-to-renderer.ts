@@ -2,7 +2,8 @@
  * This module provides a nice interface to send messages from main process to renderer process.
  */
 import { BrowserWindow } from 'electron';
-import log from 'electron-log';
+
+import log from './log';
 
 const MainToRender = {
   mainWindow: null as BrowserWindow,
@@ -15,7 +16,7 @@ export const init = (mainWindow: BrowserWindow): void => {
 };
 
 export const send = (channel: string, msg: string): void => {
-  log.info('sending to renderer', { channel, msg });
+  log.debug('Sending to renderer', { channel, msg });
   if (MainToRender.mainWindow) {
     MainToRender.mainWindow.webContents.send(channel, msg);
   } else {

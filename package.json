@@ -38,6 +38,7 @@
     "@typescript-eslint/parser": "^5.30.7",
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
     "concurrently": "^7.3.0",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.0.0",
     "dotenv": "^16.0.1",
     "electron": "18.2.4",
@@ -58,7 +59,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@loadmill/agent": "^0.1.71",
+    "@loadmill/agent": "^0.1.73",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.13",
     "electron-log": "^4.4.8",

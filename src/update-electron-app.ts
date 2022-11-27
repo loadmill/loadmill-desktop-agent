@@ -1,4 +1,5 @@
 import updater from 'update-electron-app';
+
 import {
   overrideOnUpdateDownloadedListener,
   overrideOnUpdateNotAvailableListener

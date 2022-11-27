@@ -16,8 +16,13 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.tsx'
-      ],
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        '@typescript-eslint/explicit-module-boundary-types': 'error',
+      }
+    },
+    {
+      files: ['*.tsx'],
       rules: {
         '@typescript-eslint/prefer-as-const': 'off',
       },
@@ -60,7 +65,6 @@ module.exports = {
         },
       },
     ],
-    '@typescript-eslint/explicit-module-boundary-types': 'error',
     '@typescript-eslint/no-array-constructor': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
@@ -80,12 +84,10 @@ module.exports = {
     'eslint-comments/no-use': 'error',
     'import/newline-after-import': 'error',
     'import/no-unresolved': 'off',
-    'import/order': [
-      'error',
-      {
-        groups: ['external', 'builtin', 'internal', 'sibling', 'parent', 'index'
-        ],
-      }
+    'import/order': ['error', {
+      'groups': ['external', 'builtin', 'internal', 'sibling', 'parent', 'index'],
+      'newlines-between': 'always',
+    }
     ],
     'indent': ['error', 2],
     'keyword-spacing': ['error'],

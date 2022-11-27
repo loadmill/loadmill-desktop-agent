@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
+
 import {
   API,
   CHECK_FOR_UPDATES,
