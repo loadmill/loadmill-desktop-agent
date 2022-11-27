@@ -1,7 +1,7 @@
-import React, { Ref, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import React, { Ref, useEffect } from 'react';
 
 export const Console = ({
   log,

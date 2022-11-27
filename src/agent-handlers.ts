@@ -1,8 +1,8 @@
+import '@loadmill/agent/dist/cli';
 import { app, ipcMain } from 'electron';
 
 import { ChildProcessWithoutNullStreams, fork } from 'child_process';
 
-import '@loadmill/agent/dist/cli';
 import {
   DATA,
   LOADMILL_AGENT,

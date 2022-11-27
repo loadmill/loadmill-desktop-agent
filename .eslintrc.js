@@ -85,8 +85,13 @@ module.exports = {
     'import/newline-after-import': 'error',
     'import/no-unresolved': 'off',
     'import/order': ['error', {
+      'alphabetize': {
+        'caseInsensitive': true,
+        'order': 'asc',
+      },
       'groups': ['external', 'builtin', 'internal', 'sibling', 'parent', 'index'],
       'newlines-between': 'always',
+      'warnOnUnassignedImports': true,
     }
     ],
     'indent': ['error', 2],

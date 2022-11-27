@@ -1,8 +1,8 @@
-import React from 'react';
-import IconButton from '@mui/material/IconButton';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
 import Tooltip from '@mui/material/Tooltip';
+import React from 'react';
 
 import { LINK_TO_LOADMILL_AGENT_DOCS } from '../constants';
 

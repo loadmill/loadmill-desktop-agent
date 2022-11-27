@@ -1,10 +1,10 @@
-import React, { SyntheticEvent } from 'react';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
-import IconButton from '@mui/material/IconButton';
 import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
+import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import React, { SyntheticEvent } from 'react';
 
 export const StopIconButton = ({
   disabled,

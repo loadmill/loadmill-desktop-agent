@@ -1,7 +1,7 @@
 import { start } from '@loadmill/agent';
 
-import log from './log';
 import { START_AGENT, STOP_AGENT } from './constants';
+import log from './log';
 
 let stop: () => void | undefined;
 

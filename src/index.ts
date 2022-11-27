@@ -1,9 +1,9 @@
 import { app, BrowserWindow, shell } from 'electron';
 
-import { ACTIVATE, PLATFORM, READY, WINDOW_ALL_CLOSED } from './constants';
-import { init as initMainToRenderer } from './main-to-renderer';
 import './agent-handlers';
+import { ACTIVATE, PLATFORM, READY, WINDOW_ALL_CLOSED } from './constants';
 import './log';
+import { init as initMainToRenderer } from './main-to-renderer';
 import './menu';
 import './path';
 import './update-electron-app';
