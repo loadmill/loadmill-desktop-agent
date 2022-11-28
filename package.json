@@ -9,11 +9,12 @@
   },
   "main": ".webpack/main",
   "scripts": {
+    "clean": "sudo rm -rf .webpack/ out/",
+    "forge-publish": "electron-forge publish",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --color",
     "make": "electron-forge make",
     "package": "electron-forge package",
     "parallel-lint-and-test": "concurrently --raw 'yarn lint' 'yarn test'",
-    "forge-publish": "electron-forge publish",
     "start": "electron-forge start",
     "test": "jest"
   },

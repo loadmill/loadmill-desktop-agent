@@ -49,7 +49,7 @@ export const Main = (): JSX.Element => {
     return () => {
       window.removeEventListener(MESSAGE, interceptAgentLog);
     };
-  }, [log]);
+  }, []);
 
   const handleStop = (_event: SyntheticEvent): void => {
     setIsConnected(false);
