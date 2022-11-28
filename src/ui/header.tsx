@@ -21,6 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
     { leftActionButton }
     <LoadmillTitle
       isConnected={ isConnected }
+      style={ { marginLeft: 18 } }
     />
     <div>
       <StopIconButton

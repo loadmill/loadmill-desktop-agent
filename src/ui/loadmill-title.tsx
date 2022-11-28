@@ -7,8 +7,10 @@ import { PulseCircle } from './pulse-circle';
 
 export const LoadmillTitle = ({
   isConnected,
+  style,
 }: {
   isConnected: boolean;
+  style?: React.CSSProperties;
 }): JSX.Element => {
   return (
     <div
@@ -16,10 +18,12 @@ export const LoadmillTitle = ({
         alignItems: 'center',
         display: 'flex',
         justifyContent: 'space-between',
+        ...style,
       } }
     >
       <Avatar
         src={ loadmillLogo }
+        style={ { marginRight: 4 } }
       />
       <Typography
         variant='h4'
