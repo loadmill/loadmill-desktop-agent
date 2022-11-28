@@ -8,9 +8,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import React from 'react';
 
-import { Page } from './main';
-
 import { LINK_TO_LOADMILL_SECURITY } from '../constants';
+
+import { Page } from './main';
 
 const theme = createTheme();
 

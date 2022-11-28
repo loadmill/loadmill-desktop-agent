@@ -1,5 +1,9 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
 
+import { CONNECTED, IS_AGENT_CONNECTED, MESSAGE, STDERR, STDOUT } from '../constants';
+import { isFromPreload } from '../inter-process-utils';
+import { InterProcessMessage } from '../types/messaging';
+
 import {
   GoBackIconButton,
   GoToConsoleIconButton,
@@ -10,9 +14,6 @@ import { Console } from './console';
 import { Header } from './header';
 import { LinkToAgentDocs } from './link-to-agent-docs';
 
-import { MESSAGE, STDERR, STDOUT } from '../constants';
-import { isFromPreload } from '../inter-process-utils';
-
 export type Page = 'connect' | 'console';
 
 export const Main: React.FC<MainProps> = (): JSX.Element => {
@@ -21,7 +22,7 @@ export const Main: React.FC<MainProps> = (): JSX.Element => {
   const [log, setLog] = useState<string[]>([]);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  const interceptAgentLog = (event: MessageEvent<{ data: string; type: string; }>) => {
+  const interceptAgentLog = (event: MessageEvent<InterProcessMessage>) => {
     if (
       isFromPreload(event) &&
       [STDOUT, STDERR].includes(event.data?.type) &&
@@ -43,11 +44,20 @@ export const Main: React.FC<MainProps> = (): JSX.Element => {
     }
   };
 
+  const handleIsConnectedEvent = (event: MessageEvent<InterProcessMessage>) => {
+    if (isFromPreload(event) && event.data?.type === IS_AGENT_CONNECTED) {
+      setIsConnected(event.data?.data === CONNECTED);
+    }
+  };
+
   useEffect(() => {
+    window.api.isAgentConnected();
     window.addEventListener(MESSAGE, interceptAgentLog);
+    window.addEventListener(MESSAGE, handleIsConnectedEvent);
 
     return () => {
       window.removeEventListener(MESSAGE, interceptAgentLog);
+      window.removeEventListener(MESSAGE, handleIsConnectedEvent);
     };
   }, []);
 

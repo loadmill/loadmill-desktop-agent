@@ -5,6 +5,7 @@ import { ChildProcessWithoutNullStreams, fork } from 'child_process';
 
 import {
   DATA,
+  IS_AGENT_CONNECTED,
   LOADMILL_AGENT,
   START_AGENT,
   STDERR,
@@ -13,33 +14,39 @@ import {
 } from './constants';
 import log from './log';
 import { send } from './main-to-renderer';
+import { InterProcessMessage } from './types/messaging';
 
 let agent: ChildProcessWithoutNullStreams | null;
 
-const subscribeToStartEvent = () => {
-  ipcMain.on(START_AGENT, (_event: Electron.IpcMainEvent, token: string) => {
-    if (!agent) {
-      log.info('starting agent process...');
-      agent = spawnAgent();
-      addOnAgentProcessExit();
-      if (agent.stdout) {
-        log.info('piping agent process stdout');
-        pipeAgentStdout();
-      }
-      if (agent.stderr) {
-        pipeAgentStderr();
-      }
-    }
-    if (agent && token) {
-      sendToAgentProcess({
-        data: token,
-        type: START_AGENT,
-      });
-    }
-  });
+const subscribeToStartFromRenderer = () => {
+  ipcMain.on(START_AGENT, startAgent);
 };
 
-const spawnAgent = (): ChildProcessWithoutNullStreams => {
+const startAgent = (_event: Electron.IpcMainEvent, token: string) => {
+  if (!agent || !agent.connected) {
+    initAgent();
+  }
+  if (agent && token) {
+    sendToAgentProcess({
+      data: token,
+      type: START_AGENT,
+    });
+  }
+};
+
+const initAgent = () => {
+  agent = createAgentProcess();
+  addOnAgentProcessExit();
+  addOnAgentIsConnectedEvent();
+  if (agent.stdout) {
+    pipeAgentStdout();
+  }
+  if (agent.stderr) {
+    pipeAgentStderr();
+  }
+};
+
+const createAgentProcess = (): ChildProcessWithoutNullStreams => {
   return fork(app.getAppPath() + '/.webpack/main/' + LOADMILL_AGENT, {
     stdio: 'pipe',
   });
@@ -51,11 +58,22 @@ const addOnAgentProcessExit = () => {
   });
 };
 
+const addOnAgentIsConnectedEvent = (): void => {
+  agent.on('message', ({ data, type }: InterProcessMessage) => {
+    if (type === IS_AGENT_CONNECTED) {
+      setTimeout(() => {
+        send({ data, type: IS_AGENT_CONNECTED });
+      },
+      500);
+    }
+  });
+};
+
 const pipeAgentStdout = () => {
   agent.stdout.on(DATA, (data: string | Buffer) => {
     const text = Buffer.from(data).toString();
     log.info('Agent:', text);
-    send(STDOUT, text);
+    send({ data: text, type: STDOUT });
   });
 };
 
@@ -63,22 +81,35 @@ const pipeAgentStderr = () => {
   agent.stderr.on(DATA, (data: string | Buffer) => {
     const text = Buffer.from(data).toString();
     log.info('Agent:', text);
-    send(STDERR, text);
+    send({ data: text, type: STDERR });
   });
 };
 
-const subscribeToStopEvent = () => {
+const subscribeToStopFromRenderer = () => {
   ipcMain.on(STOP_AGENT, (_event: Electron.IpcMainEvent) => {
-    log.info('stopping agent...');
+    log.info('Stopping agent...');
     sendToAgentProcess({ type: STOP_AGENT });
   });
 };
 
-subscribeToStartEvent();
-subscribeToStopEvent();
+export const subscribeToIsConnectedFromRenderer = (): void => {
+  ipcMain.on(IS_AGENT_CONNECTED, (_event: Electron.IpcMainEvent) => {
+    if (agent && agent.connected) {
+      sendToAgentProcess({ type: IS_AGENT_CONNECTED });
+    }
+  });
+};
 
-const sendToAgentProcess = (msg: ParentProcessMessage) => {
-  if (agent) {
+export const subscribeToRendererEvents = (): void => {
+  subscribeToStartFromRenderer();
+  subscribeToStopFromRenderer();
+  subscribeToIsConnectedFromRenderer();
+};
+
+subscribeToRendererEvents();
+
+const sendToAgentProcess = (msg: InterProcessMessage) => {
+  if (agent && agent.connected) {
     agent.send(msg);
   }
 };
