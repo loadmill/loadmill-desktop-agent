@@ -3,14 +3,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import React, { Ref, useEffect } from 'react';
 
-export const Console = ({
+export const Console: React.FC<ConsoleProps> = ({
   log,
   scrollToBottom,
   scrollRef,
-}: {
-  log: string[];
-  scrollRef: Ref<HTMLLIElement>;
-  scrollToBottom: () => void;
 }): JSX.Element => {
 
   return (
@@ -82,4 +78,10 @@ const LogEvent = ({ event }: { event: string; }): JSX.Element => {
       />
     </ListItem>
   );
+};
+
+export type ConsoleProps = {
+  log: string[];
+  scrollRef: Ref<HTMLLIElement>;
+  scrollToBottom: () => void;
 };

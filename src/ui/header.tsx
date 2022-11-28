@@ -21,11 +21,11 @@ export const Header: React.FC<HeaderProps> = ({
     { leftActionButton }
     <LoadmillTitle
       isConnected={ isConnected }
-      style={ { marginLeft: 18 } }
+      style={ { marginLeft: 28 } }
     />
     <div>
       <StopIconButton
-        disabled={ !isConnected }
+        isDisabled={ !isConnected }
         onStopClicked={ handleStop }
       />
       { rightActionButton }

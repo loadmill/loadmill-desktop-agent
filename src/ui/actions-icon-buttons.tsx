@@ -6,13 +6,10 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import React, { SyntheticEvent } from 'react';
 
-export const StopIconButton = ({
-  disabled,
+export const StopIconButton: React.FC<StopIconButtonProps> = ({
+  isDisabled,
   onStopClicked,
-}:{
-  disabled?: boolean;
-  onStopClicked: (e: SyntheticEvent) => void;
- }): JSX.Element => {
+}): JSX.Element => {
   return (
     <>
       <Tooltip
@@ -21,11 +18,11 @@ export const StopIconButton = ({
       >
         <span>
           <IconButton
-            disabled={ disabled }
+            disabled={ isDisabled }
             onClick={ onStopClicked }
           >
             <StopCircleOutlinedIcon
-              color={ disabled ? 'disabled' : 'primary' }
+              color={ isDisabled ? 'disabled' : 'primary' }
               fontSize='large'
             />
           </IconButton>
@@ -35,7 +32,14 @@ export const StopIconButton = ({
   );
 };
 
-export const ScrollToBottomIconButton = ({ onScrollToBottomClicked }:{ onScrollToBottomClicked: (e: SyntheticEvent) => void }): JSX.Element => {
+export type StopIconButtonProps = {
+  isDisabled?: boolean;
+  onStopClicked: (e: SyntheticEvent) => void;
+};
+
+export const ScrollToBottomIconButton: React.FC<ScrollToBottomIconProps> = ({
+  onScrollToBottomClicked
+}): JSX.Element => {
   return (
     <>
       <Tooltip
@@ -55,12 +59,13 @@ export const ScrollToBottomIconButton = ({ onScrollToBottomClicked }:{ onScrollT
   );
 };
 
-export const GoToConsoleIconButton = ({
-  disabled,
+export type ScrollToBottomIconProps = {
+  onScrollToBottomClicked: (e: SyntheticEvent) => void;
+};
+
+export const GoToConsoleIconButton: React.FC<GoToConsoleIconButtonProps> = ({
+  isDisabled,
   onGoToConsoleClicked
-}:{
-  disabled: boolean,
-  onGoToConsoleClicked: (e: SyntheticEvent) => void
 }): JSX.Element => {
   return (
     <>
@@ -70,11 +75,11 @@ export const GoToConsoleIconButton = ({
       >
         <span>
           <IconButton
-            disabled={ disabled }
+            disabled={ isDisabled }
             onClick={ onGoToConsoleClicked }
           >
             <ReadMoreOutlinedIcon
-              color={ disabled ? 'disabled' : 'primary' }
+              color={ isDisabled ? 'disabled' : 'primary' }
               fontSize='large'
             />
 
@@ -85,7 +90,14 @@ export const GoToConsoleIconButton = ({
   );
 };
 
-export const GoBackIconButton = ({ onGoBackClicked }:{ onGoBackClicked: (e: SyntheticEvent) => void }): JSX.Element => {
+export type GoToConsoleIconButtonProps = {
+  isDisabled: boolean,
+  onGoToConsoleClicked: (e: SyntheticEvent) => void
+};
+
+export const GoBackIconButton: React.FC<GoBackIconButtonProps> = ({
+  onGoBackClicked,
+}): JSX.Element => {
   return (
     <>
       <Tooltip
@@ -105,4 +117,8 @@ export const GoBackIconButton = ({ onGoBackClicked }:{ onGoBackClicked: (e: Synt
       </Tooltip>
     </>
   );
+};
+
+export type GoBackIconButtonProps = {
+  onGoBackClicked: (e: SyntheticEvent) => void;
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const PulseCircle = (): JSX.Element => {
+export const PulseCircle: React.FC<PulseCircleProps> = (): JSX.Element => {
   return (
     <div
       className='green-pulse'
@@ -10,3 +10,5 @@ export const PulseCircle = (): JSX.Element => {
     </div>
   );
 };
+
+export type PulseCircleProps = {};

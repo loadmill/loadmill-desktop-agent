@@ -5,13 +5,7 @@ import React from 'react';
 import loadmillLogo from './loadmill_logo.png';
 import { PulseCircle } from './pulse-circle';
 
-export const LoadmillTitle = ({
-  isConnected,
-  style,
-}: {
-  isConnected: boolean;
-  style?: React.CSSProperties;
-}): JSX.Element => {
+export const LoadmillTitle: React.FC<LoadmillTitleProps> = ({ isConnected, style }): JSX.Element => {
   return (
     <div
       style={ {
@@ -36,4 +30,9 @@ export const LoadmillTitle = ({
       }
     </div>
   );
+};
+
+export type LoadmillTitleProps = {
+  isConnected: boolean;
+  style?: React.CSSProperties;
 };

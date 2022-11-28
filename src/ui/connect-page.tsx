@@ -14,16 +14,11 @@ import { LINK_TO_LOADMILL_SECURITY } from '../constants';
 
 const theme = createTheme();
 
-export const ConnectPage = ({
+export const ConnectPage: React.FC<ConnectPageProps> = ({
   isConnected,
   setPage,
   setToken,
   token,
-}: {
-  isConnected: boolean;
-  setPage: React.Dispatch<React.SetStateAction<Page>>;
-  setToken: React.Dispatch<React.SetStateAction<string>>;
-  token: string;
 }): JSX.Element => {
 
   const handleChangeToken = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,17 +59,19 @@ export const ConnectPage = ({
   );
 };
 
-function ConnectForm({
+export type ConnectPageProps = {
+  isConnected: boolean;
+  setPage: React.Dispatch<React.SetStateAction<Page>>;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
+  token: string;
+};
+
+const ConnectForm: React.FC<ConnectFormProps> = ({
   handleChangeToken,
   handleSubmit,
   isConnected,
   token,
-}: {
-  handleChangeToken: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  isConnected: boolean;
-  token: string;
-}): JSX.Element {
+}): JSX.Element => {
   return (
     <Box
       component='form'
@@ -120,4 +117,11 @@ function ConnectForm({
       </Grid>
     </Box>
   );
-}
+};
+
+export type ConnectFormProps = {
+  handleChangeToken: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  isConnected: boolean;
+  token: string;
+};

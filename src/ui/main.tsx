@@ -15,7 +15,7 @@ import { isFromPreload } from '../inter-process-utils';
 
 export type Page = 'connect' | 'console';
 
-export const Main = (): JSX.Element => {
+export const Main: React.FC<MainProps> = (): JSX.Element => {
   const [page, setPage] = useState<Page>('connect');
   const [token, setToken] = useState<string>('');
   const [log, setLog] = useState<string[]>([]);
@@ -79,7 +79,7 @@ export const Main = (): JSX.Element => {
         rightActionButton={
           (page === 'connect') ?
             <GoToConsoleIconButton
-              disabled={ log.length === 0 }
+              isDisabled={ log.length === 0 }
               onGoToConsoleClicked={ () => setPage('console') }
             /> :
             <ScrollToBottomIconButton
@@ -104,3 +104,5 @@ export const Main = (): JSX.Element => {
     </>
   );
 };
+
+export type MainProps = {};
