@@ -5,6 +5,7 @@ export const
   CONNECTED = 'connected',
   DATA = 'data',
   DISCONNECTED = 'disconnected',
+  INIT_AGENT_LOG = 'initAgentLog',
   IS_AGENT_CONNECTED = 'isAgentConnected',
   MESSAGE = 'message',
   READY = 'ready',

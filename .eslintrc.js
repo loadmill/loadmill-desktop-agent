@@ -89,7 +89,7 @@ module.exports = {
         'caseInsensitive': true,
         'order': 'asc',
       },
-      'groups': ['external', 'builtin', 'internal', 'parent', 'sibling', 'index'],
+      'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
       'newlines-between': 'always',
       'warnOnUnassignedImports': true,
     }

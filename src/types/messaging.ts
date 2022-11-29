@@ -1,4 +1,5 @@
 import {
+  INIT_AGENT_LOG,
   IS_AGENT_CONNECTED,
   START_AGENT,
   STDERR,
@@ -25,11 +26,13 @@ export interface ProcessMessageMain extends ProcessMessage {
 export interface ProcessMessageRenderer extends ProcessMessage {
   data: {
     isConnected?: boolean;
+    lines?: string[];
     text?: string;
   };
 }
 
 export type ProcessMessageTypes =
+  typeof INIT_AGENT_LOG |
   typeof IS_AGENT_CONNECTED |
   typeof START_AGENT |
   typeof STDERR |

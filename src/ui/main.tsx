@@ -1,6 +1,7 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
 
 import {
+  INIT_AGENT_LOG,
   IS_AGENT_CONNECTED,
   MESSAGE,
   STDERR,
@@ -39,6 +40,12 @@ export const Main: React.FC<MainProps> = (): JSX.Element => {
     setIsConnected(!!data?.isConnected);
   };
 
+  const onInitAgentLogMsg = (data: ProcessMessageRenderer['data']) => {
+    if (data?.lines) {
+      setLog(data.lines);
+    }
+  };
+
   const onPreloadMessage = (event: MessageEvent<ProcessMessageRenderer>) => {
     if (isFromPreload(event)) {
       const { data: { type, data } } = event;
@@ -49,6 +56,9 @@ export const Main: React.FC<MainProps> = (): JSX.Element => {
           break;
         case IS_AGENT_CONNECTED:
           onIsConnectedMsg(data);
+          break;
+        case INIT_AGENT_LOG:
+          onInitAgentLogMsg(data);
           break;
         default:
           break;
@@ -62,7 +72,10 @@ export const Main: React.FC<MainProps> = (): JSX.Element => {
   };
 
   useEffect(() => {
-    setTimeout(window.api.isAgentConnected, 250);
+    setTimeout(() => {
+      window.api.isAgentConnected();
+      window.api.initAgentLog();
+    }, 250);
     window.addEventListener(MESSAGE, onMessage);
 
     return () => {

@@ -1,6 +1,6 @@
 {
   "name": "loadmill-desktop-agent",
-  "productName": "Loadmill Desktop App",
+  "productName": "Loadmill",
   "version": "0.0.8",
   "description": "The Loadmill desktop app",
   "author": {
