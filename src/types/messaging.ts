@@ -6,12 +6,30 @@ import {
   STOP_AGENT
 } from '../constants';
 
-export type InterProcessMessage = {
-  data?: string;
-  type: InterProcessMessageTypes;
-};
+interface ProcessMessage {
+  type: ProcessMessageTypes;
+}
 
-export type InterProcessMessageTypes =
+export interface ProcessMessageAgent extends ProcessMessage {
+  data?: {
+    token: string;
+  };
+}
+
+export interface ProcessMessageMain extends ProcessMessage {
+  data: {
+    isConnected?: boolean;
+  };
+}
+
+export interface ProcessMessageRenderer extends ProcessMessage {
+  data: {
+    isConnected?: boolean;
+    text?: string;
+  };
+}
+
+export type ProcessMessageTypes =
   typeof IS_AGENT_CONNECTED |
   typeof START_AGENT |
   typeof STDERR |

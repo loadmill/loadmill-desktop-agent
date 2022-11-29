@@ -94,7 +94,7 @@ module.exports = {
       'warnOnUnassignedImports': true,
     }
     ],
-    'indent': ['error', 2],
+    'indent': ['error', 2, { 'SwitchCase': 1 }],
     'keyword-spacing': ['error'],
     'max-classes-per-file': ['error', 10],
     'max-len': ['error', 200],

@@ -3,6 +3,7 @@ import { app, ipcMain } from 'electron';
 
 import { ChildProcessWithoutNullStreams, fork } from 'child_process';
 
+import { refreshConnectedStatus } from './connected-status';
 import {
   DATA,
   IS_AGENT_CONNECTED,
@@ -13,8 +14,8 @@ import {
   STOP_AGENT
 } from './constants';
 import log from './log';
-import { send } from './main-to-renderer';
-import { InterProcessMessage } from './types/messaging';
+import { send as sendToRenderer } from './main-to-renderer';
+import { ProcessMessageAgent, ProcessMessageMain } from './types/messaging';
 
 let agent: ChildProcessWithoutNullStreams | null;
 
@@ -28,7 +29,7 @@ const startAgent = (_event: Electron.IpcMainEvent, token: string) => {
   }
   if (agent && token) {
     sendToAgentProcess({
-      data: token,
+      data: { token },
       type: START_AGENT,
     });
   }
@@ -36,7 +37,7 @@ const startAgent = (_event: Electron.IpcMainEvent, token: string) => {
 
 const initAgent = () => {
   agent = createAgentProcess();
-  addOnAgentProcessExit();
+  addOnAgentExitEvent();
   addOnAgentIsConnectedEvent();
   if (agent.stdout) {
     pipeAgentStdout();
@@ -52,19 +53,16 @@ const createAgentProcess = (): ChildProcessWithoutNullStreams => {
   });
 };
 
-const addOnAgentProcessExit = () => {
+const addOnAgentExitEvent = () => {
   agent.on('exit', (code) => {
     log.info('Agent process exited with code:', code);
   });
 };
 
 const addOnAgentIsConnectedEvent = (): void => {
-  agent.on('message', ({ data, type }: InterProcessMessage) => {
+  agent.on('message', ({ data, type }: ProcessMessageMain) => {
     if (type === IS_AGENT_CONNECTED) {
-      setTimeout(() => {
-        send({ data, type: IS_AGENT_CONNECTED });
-      },
-      500);
+      sendToRenderer({ data, type: IS_AGENT_CONNECTED });
     }
   });
 };
@@ -73,7 +71,8 @@ const pipeAgentStdout = () => {
   agent.stdout.on(DATA, (data: string | Buffer) => {
     const text = Buffer.from(data).toString();
     log.info('Agent:', text);
-    send({ data: text, type: STDOUT });
+    refreshConnectedStatus({ text });
+    sendToRenderer({ data: { text }, type: STDOUT });
   });
 };
 
@@ -81,7 +80,8 @@ const pipeAgentStderr = () => {
   agent.stderr.on(DATA, (data: string | Buffer) => {
     const text = Buffer.from(data).toString();
     log.info('Agent:', text);
-    send({ data: text, type: STDERR });
+    refreshConnectedStatus({ text });
+    sendToRenderer({ data: { text }, type: STDERR });
   });
 };
 
@@ -108,7 +108,7 @@ export const subscribeToRendererEvents = (): void => {
 
 subscribeToRendererEvents();
 
-const sendToAgentProcess = (msg: InterProcessMessage) => {
+const sendToAgentProcess = (msg: ProcessMessageAgent) => {
   if (agent && agent.connected) {
     agent.send(msg);
   }

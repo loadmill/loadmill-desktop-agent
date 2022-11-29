@@ -1,8 +1,14 @@
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
 
-import { CONNECTED, IS_AGENT_CONNECTED, MESSAGE, STDERR, STDOUT } from '../constants';
+import {
+  IS_AGENT_CONNECTED,
+  MESSAGE,
+  STDERR,
+  STDOUT
+} from '../constants';
 import { isFromPreload } from '../inter-process-utils';
-import { InterProcessMessage } from '../types/messaging';
+import { ProcessMessageRenderer } from '../types/messaging';
+import { textToNonEmptyLines } from '../utils';
 
 import {
   GoBackIconButton,
@@ -22,42 +28,45 @@ export const Main: React.FC<MainProps> = (): JSX.Element => {
   const [log, setLog] = useState<string[]>([]);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  const interceptAgentLog = (event: MessageEvent<InterProcessMessage>) => {
-    if (
-      isFromPreload(event) &&
-      [STDOUT, STDERR].includes(event.data?.type) &&
-      (event.data?.data.includes('[INFO]') || event.data?.data.includes('[ERROR]'))
-    ) {
-      const lines = event.data.data.split('\n').filter(l => l && l.trim());
-      if (lines.some(l => l.includes('[INFO] Successfully connected to Loadmill'))) {
-        setIsConnected(true);
-      }
-      if (lines.some(l => l.includes('[INFO] Shutting down gracefully')) ||
-         lines.some(l => l.includes('[ERROR] Disconnected from Loadmill'))) {
-        setIsConnected(false);
-      }
-      if (lines.some(l => l.includes('[ERROR] The agent is outdated'))) {
-        setIsConnected(false);
-        window.api.checkForUpdates();
-      }
+  const onAgentStdoutMsg = ({ text }: ProcessMessageRenderer['data']) => {
+    if (text && (text.includes('[INFO]') || text.includes('[ERROR]'))) {
+      const lines = textToNonEmptyLines(text);
       setLog(prevLog => [...prevLog, ...lines]);
     }
   };
 
-  const handleIsConnectedEvent = (event: MessageEvent<InterProcessMessage>) => {
-    if (isFromPreload(event) && event.data?.type === IS_AGENT_CONNECTED) {
-      setIsConnected(event.data?.data === CONNECTED);
+  const onIsConnectedMsg = (data: ProcessMessageRenderer['data']) => {
+    setIsConnected(!!data?.isConnected);
+  };
+
+  const onPreloadMessage = (event: MessageEvent<ProcessMessageRenderer>) => {
+    if (isFromPreload(event)) {
+      const { data: { type, data } } = event;
+      switch (type) {
+        case STDOUT:
+        case STDERR:
+          onAgentStdoutMsg(data);
+          break;
+        case IS_AGENT_CONNECTED:
+          onIsConnectedMsg(data);
+          break;
+        default:
+          break;
+      }
     }
+
+  };
+
+  const onMessage = (event: MessageEvent<ProcessMessageRenderer>) => {
+    onPreloadMessage(event);
   };
 
   useEffect(() => {
-    window.api.isAgentConnected();
-    window.addEventListener(MESSAGE, interceptAgentLog);
-    window.addEventListener(MESSAGE, handleIsConnectedEvent);
+    setTimeout(window.api.isAgentConnected, 250);
+    window.addEventListener(MESSAGE, onMessage);
 
     return () => {
-      window.removeEventListener(MESSAGE, interceptAgentLog);
-      window.removeEventListener(MESSAGE, handleIsConnectedEvent);
+      window.removeEventListener(MESSAGE, onMessage);
     };
   }, []);
 
