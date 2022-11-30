@@ -1,7 +1,7 @@
 {
   "name": "loadmill-desktop-agent",
   "productName": "Loadmill",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "The Loadmill desktop app",
   "author": {
     "name": "Gilad Gur Andelman",
@@ -28,6 +28,7 @@
     "@electron-forge/maker-deb": "^6.0.0-beta.63",
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-dmg": "^6.0.3",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
     "@electron-forge/plugin-webpack": "6.0.0-beta.63",
     "@electron-forge/publisher-github": "^6.0.0-beta.65",

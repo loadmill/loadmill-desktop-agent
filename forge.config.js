@@ -14,6 +14,13 @@ module.exports = {
         'darwin'
       ]
     },
+    {
+      config: {
+        // background: './assets/dmg-background.png',
+        format: 'ULFO'
+      },
+      name: '@electron-forge/maker-dmg',
+    },
   ],
   packagerConfig: {
     icon: './images/MyIcon',
