@@ -24,7 +24,7 @@ export const ConnectPage: React.FC<ConnectPageProps> = ({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     window.api.startAgent(token);
-    setToken('');
+    // setToken('');
     setPage('console');
   };
 
@@ -82,10 +82,11 @@ const ConnectForm: React.FC<ConnectFormProps> = ({
         margin='normal'
         name='token'
         onChange={ handleChangeToken }
+        type='password'
         value={ token }
       />
       <Button
-        disabled={ !token }
+        disabled={ isConnected || !token }
         fullWidth
         sx={ { mb: 2, mt: 3 } }
         type='submit'

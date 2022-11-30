@@ -3,9 +3,8 @@ import Typography from '@mui/material/Typography';
 import React from 'react';
 
 import loadmillLogo from './loadmill_logo.png';
-import { PulseCircle } from './pulse-circle';
 
-export const LoadmillTitle: React.FC<LoadmillTitleProps> = ({ isConnected, style }): JSX.Element => {
+export const LoadmillTitle: React.FC<LoadmillTitleProps> = ({ style }): JSX.Element => {
   return (
     <div
       style={ {
@@ -24,15 +23,10 @@ export const LoadmillTitle: React.FC<LoadmillTitleProps> = ({ isConnected, style
       >
         Loadmill Agent
       </Typography>
-      {
-        isConnected &&
-          <PulseCircle/>
-      }
     </div>
   );
 };
 
 export type LoadmillTitleProps = {
-  isConnected: boolean;
   style?: React.CSSProperties;
 };
