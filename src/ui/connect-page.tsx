@@ -1,18 +1,14 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import React from 'react';
 
 import { LINK_TO_LOADMILL_SECURITY } from '../constants';
 
 import { Page } from './main';
-
-const theme = createTheme();
 
 export const ConnectPage: React.FC<ConnectPageProps> = ({
   isConnected,
@@ -33,29 +29,26 @@ export const ConnectPage: React.FC<ConnectPageProps> = ({
   };
 
   return (
-    <ThemeProvider theme={ theme }>
-      <CssBaseline />
-      <Container
-        component='main'
-        maxWidth='xs'
+    <Container
+      component='main'
+      maxWidth='xs'
+    >
+      <Box
+        sx={ {
+          alignItems: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          marginTop: 8,
+        } }
       >
-        <Box
-          sx={ {
-            alignItems: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            marginTop: 8,
-          } }
-        >
-          <ConnectForm
-            handleChangeToken={ handleChangeToken }
-            handleSubmit={ handleSubmit }
-            isConnected={ isConnected }
-            token={ token }
-          />
-        </Box>
-      </Container>
-    </ThemeProvider>
+        <ConnectForm
+          handleChangeToken={ handleChangeToken }
+          handleSubmit={ handleSubmit }
+          isConnected={ isConnected }
+          token={ token }
+        />
+      </Box>
+    </Container>
   );
 };
 

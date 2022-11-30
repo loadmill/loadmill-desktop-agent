@@ -169,9 +169,11 @@ module.exports = {
     'sort-keys': 'error',
     'sort-vars': 'error',
     'space-before-blocks': 'error',
+    'space-infix-ops': 'error',
     'unused-imports/no-unused-imports': 'error',
   },
   settings: {
+    'import/ignore': [ /@mui\/material/ ],
     react: {
       version: 'detect',
     },
