@@ -16,15 +16,12 @@ import {
   GoToConsoleIconButton,
   ScrollToBottomIconButton
 } from './actions-icon-buttons';
-import { ConnectPage } from './connect-page';
-import { Console } from './console';
 import { Header } from './header';
 import { LinkToAgentDocs } from './link-to-agent-docs';
-
-export type Page = 'connect' | 'console';
+import { Page, PageType } from './page';
 
 export const Main: React.FC<MainProps> = (): JSX.Element => {
-  const [page, setPage] = useState<Page>('connect');
+  const [page, setPage] = useState<PageType>('connect');
   const [token, setToken] = useState<string>('');
   const [log, setLog] = useState<string[]>([]);
   const [isConnected, setIsConnected] = useState<boolean>(false);
@@ -119,20 +116,16 @@ export const Main: React.FC<MainProps> = (): JSX.Element => {
             />
         }
       />
-      { (page === 'connect') ? (
-        <ConnectPage
-          isConnected={ isConnected }
-          setPage={ setPage }
-          setToken={ setToken }
-          token={ token }
-        />
-      ) : (
-        <Console
-          log={ log }
-          scrollRef={ scrollRef }
-          scrollToBottom={ scrollToBottom }
-        />
-      ) }
+      <Page
+        isConnected={ isConnected }
+        log={ log }
+        page={ page }
+        scrollRef={ scrollRef }
+        scrollToBottom={ scrollToBottom }
+        setPage={ setPage }
+        setToken={ setToken }
+        token={ token }
+      />
     </>
   );
 };

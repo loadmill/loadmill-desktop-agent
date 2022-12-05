@@ -16,8 +16,17 @@ module.exports = {
     },
     {
       config: {
-        // background: './assets/dmg-background.png',
-        format: 'ULFO'
+        additionalDMGOptions: {
+          window: {
+            size: {
+              height: 460,
+              width: 650,
+            }
+          }
+        },
+        background: './images/dmg-background.png',
+        format: 'ULFO',
+        icon: './images/disk-icon.icns',
       },
       name: '@electron-forge/maker-dmg',
     },

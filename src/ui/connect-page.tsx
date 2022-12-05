@@ -8,7 +8,7 @@ import React from 'react';
 
 import { LINK_TO_LOADMILL_SECURITY } from '../constants';
 
-import { Page } from './main';
+import { PageType } from './page';
 
 export const ConnectPage: React.FC<ConnectPageProps> = ({
   isConnected,
@@ -54,7 +54,7 @@ export const ConnectPage: React.FC<ConnectPageProps> = ({
 
 export type ConnectPageProps = {
   isConnected: boolean;
-  setPage: React.Dispatch<React.SetStateAction<Page>>;
+  setPage: React.Dispatch<React.SetStateAction<PageType>>;
   setToken: React.Dispatch<React.SetStateAction<string>>;
   token: string;
 };

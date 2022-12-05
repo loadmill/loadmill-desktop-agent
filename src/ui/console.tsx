@@ -10,20 +10,13 @@ export const Console: React.FC<ConsoleProps> = ({
 }): JSX.Element => {
 
   return (
-    <div>
-      <div
-        style={ {
-          maxHeight: 650,
-          overflow: 'scroll',
-        } }
-      >
-        <ScrollableList
-          log={ log }
-          scrollRef={ scrollRef }
-          scrollToBottom={ scrollToBottom }
-        />
-      </div>
-    </div>
+    <>
+      <ScrollableList
+        log={ log }
+        scrollRef={ scrollRef }
+        scrollToBottom={ scrollToBottom }
+      />
+    </>
   );
 };
 

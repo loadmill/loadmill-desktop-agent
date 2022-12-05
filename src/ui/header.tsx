@@ -12,7 +12,14 @@ export const Header: React.FC<HeaderProps> = ({
   handleStop,
   isConnected,
 }): JSX.Element => (
-  <div>
+  <div
+    style={ {
+      alignItems: 'center',
+      display: 'flex',
+      justifyContent: 'space-between',
+    } }
+  >
+    { leftActionButton }
     <div
       style={ {
         alignItems: 'center',
@@ -20,28 +27,19 @@ export const Header: React.FC<HeaderProps> = ({
         justifyContent: 'space-between',
       } }
     >
-      { leftActionButton }
-      <div
-        style={ {
-          alignItems: 'center',
-          display: 'flex',
-          justifyContent: 'space-between',
-        } }
-      >
-        <LoadmillTitle
-          style={ { marginLeft: 28 } }
-        />
-        <Connected
-          isConnected={ isConnected }
-        />
-      </div>
-      <div>
-        <StopIconButton
-          isDisabled={ !isConnected }
-          onStopClicked={ handleStop }
-        />
-        { rightActionButton }
-      </div>
+      <LoadmillTitle
+        style={ { marginLeft: 28 } }
+      />
+      <Connected
+        isConnected={ isConnected }
+      />
+    </div>
+    <div>
+      <StopIconButton
+        isDisabled={ !isConnected }
+        onStopClicked={ handleStop }
+      />
+      { rightActionButton }
     </div>
   </div>
 );
