@@ -4,4 +4,4 @@
 Run and manage your [Loadmill](https://www.loadmill.com) tests locally.
 
 ## Releases
-Download the latest release [here](https://github.com/lo[admil]()l/loadmill-desktop-agent/releases/latest).
+Download the latest release [here](https://github.com/loadmill/loadmill-desktop-agent/releases/latest).
