@@ -5,18 +5,33 @@ jobs:
       xcode: "14.1.0"
     steps:
       - checkout
-      - run: security create-keychain -p $KEYCHAIN_PASSWORD build.keychain
-      - run: security default-keychain -s build.keychain
-      - run: security unlock-keychain -p $KEYCHAIN_PASSWORD build.keychain
-      - run: echo $KEYSTORE | base64 --decode - > keystore.p12
-      - run: security import keystore.p12 -k build.keychain -P $KEYCHAIN_PASSWORD -T /usr/bin/codesign
+      - run:
+          name: create-keychain
+          command: security create-keychain -p $KEYCHAIN_PASSWORD build.keychain
+      - run:
+          name: set-default-keychain
+          command: security default-keychain -s build.keychain
+      - run:
+          name: unlock-keychain
+          command: security unlock-keychain -p $KEYCHAIN_PASSWORD build.keychain
+      - run:
+          name: create CERT file
+          command: echo $KEYSTORE | base64 --decode - > keystore.p12
+      - run:
+          name: codesign
+          command: security import keystore.p12 -k build.keychain -P $KEYCHAIN_PASSWORD -T /usr/bin/codesign -A
       - run:
           name: install dependencies
           command: yarn
       - run:
-          name: Create Distributals
-          command: yarn make
-          no_output_timeout: 30m
+          name: package application
+          command: yarn package
+      - run:
+          name: create distribution files
+          command: yarn only-make
+      - run:
+          name: publish release
+          command: yarn forge-publish
 
 
 workflows:
