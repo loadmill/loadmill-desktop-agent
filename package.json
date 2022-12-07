@@ -10,13 +10,13 @@
   "main": ".webpack/main",
   "scripts": {
     "clean": "sudo rm -rf .webpack/ out/",
-    "forge-publish": "electron-forge publish",
+    "forge-publish": "sudo electron-forge publish",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --color",
-    "make": "electron-forge make",
-    "only-make": "electron-forge make --skip-package=true",
-    "package": "electron-forge package",
+    "make": "sudo electron-forge make",
+    "only-make": "sudo electron-forge make --skip-package=true",
+    "package": "sudo electron-forge package",
     "parallel-lint-and-test": "concurrently --raw 'yarn lint' 'yarn test'",
-    "start": "electron-forge start",
+    "start": "sudo electron-forge start",
     "test": "jest"
   },
   "keywords": [],
