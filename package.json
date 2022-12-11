@@ -11,6 +11,7 @@
   "scripts": {
     "clean": "rm -rf .webpack/ out/",
     "forge-publish": "electron-forge publish",
+    "greet": "echo hello",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --color",
     "make": "electron-forge make",
     "only-make": "electron-forge make --skip-package=true",
