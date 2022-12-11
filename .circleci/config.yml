@@ -25,16 +25,16 @@ jobs:
           command: 'security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k $KEYCHAIN_PASSWORD build.keychain'
       - run:
           name: verify valid identity found
-          command: security find-identity -p codesigning -v || fail-on-purpose
+          command: '[[ $(security find-identity -p codesigning -v) = *"1 valid identities found"* ]]'
       - run:
           name: install dependencies
           command: yarn
-      - run:
-          name: package application
-          command: yarn package
-      - run:
-          name: create distribution files
-          command: yarn only-make
+      # - run:
+      #     name: package application
+      #     command: yarn package
+      # - run:
+      #     name: create distribution files
+      #     command: yarn only-make
       - run:
           name: publish release
           command: yarn forge-publish
