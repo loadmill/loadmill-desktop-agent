@@ -23,7 +23,7 @@ jobs:
       - run:
           name: verify valid identity created
           command: |
-            security find-identity -p codesigning -v
+            security find-identity -p codesigning -v &&
             '[[ $(security find-identity -p codesigning -v) = *"1 valid identities found"* ]]'
       - run:
           name: suppress macOS codesign execution prompt
