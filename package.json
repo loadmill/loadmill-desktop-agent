@@ -1,7 +1,7 @@
 {
   "name": "loadmill-desktop-agent",
   "productName": "Loadmill",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "The Loadmill desktop app",
   "author": {
     "name": "Gilad Gur Andelman",
