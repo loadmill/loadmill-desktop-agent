@@ -15,7 +15,7 @@
     "make": "electron-forge make",
     "only-make": "electron-forge make --skip-package=true",
     "package": "electron-forge package",
-    "parallel-lint-and-test": "concurrently --raw 'yarn lint' 'yarn test'",
+    "lint-and-test": "concurrently --raw 'yarn lint' 'yarn test'",
     "start": "electron-forge start",
     "test": "jest"
   },

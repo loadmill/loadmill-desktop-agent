@@ -32,6 +32,9 @@ jobs:
       - run:
           name: install dependencies
           command: yarn
+      - run:
+          name: run tests
+          command: yarn lint-and-test
       - when:
           condition:
               not:
