@@ -1,32 +1,27 @@
-# name of your github action
-name: CI
-# this will help you specify where to run 
-on:
-  push:
-    branches:
-    # this will run on the electron branch
-      - electron
-# this is where the magic happens, each job happens in parallel btw
+name: Create a PR with updated @loadmill/agent and repo versions
+on: [deployment_status]
+  # schedule:
+  #   # Check for updates every day at 12pm
+  #   - cron: '0 12 * * *'
+
 jobs:
-  build_on_mac:
-    runs-on: macOS-latest
+  check-package-updates:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-      with:
-        ref: electron
-    - uses: actions/setup-node@master
-      with:
-        node-version: 10.16
-    - name: see directory
-      run: ls
-  build_on_win:
-    runs-on: windows-2016
-    steps:
-    - uses: actions/checkout@master
-      with:
-        ref: feature/github-actions        
-    - uses: actions/setup-node@master
-      with:
-        node-version: 10.16
-    - name: see directory
-      run: ls
+      - uses: actions/checkout@v2
+      - name: Check @loadmill/agent package updates
+        run: npm outdated @loadmill/agent
+        # Check if the @loadmill/agent package is outdated
+        id: outdated_package
+      - name: Create a PR with updated @loadmill/agent and repo versions
+        if: steps.outdated_package.outputs.up_to_date != 'true'
+        uses: peter-evans/create-pull-request@v3
+        with:
+          # The title of the PR
+          title: 'Update @loadmill/agent and repo versions'
+          # The body of the PR
+          body: 'This PR updates the @loadmill/agent package and repository versions to the latest versions.'
+          # The branch where the changes will be made
+          head: update-package-versions
+          # The base branch to which the changes will be compared and merged
+          base: master
