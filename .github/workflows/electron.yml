@@ -16,7 +16,7 @@ jobs:
         id: outdated_package
       - name: check output of outdated
         id: checker
-        run: echo ${{ steps.outdated_package.outputs. }}
+        run: echo ${{ steps.outdated_package.outputs }}
         
       # - name: Create a PR with updated @loadmill/agent and repo versions
       #   if: steps.outdated_package.outputs.up_to_date != 'true'
