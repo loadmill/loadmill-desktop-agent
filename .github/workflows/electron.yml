@@ -18,10 +18,10 @@ jobs:
         continue-on-error: true
       - name: yarn info of agent package
         id: infoer
-        run: yarn info @loadmill/agent --json
+        run: yarn info @loadmill/agent
       - name: Check on failures
         if: steps.outdated_agent_package.outcome != 'success'
-        run: echo ${{ steps.infoer.outputs.data.version }}
+        run: echo ${{ steps.infoer.outputs.data }}
       # - name: Create a PR with updated @loadmill/agent and repo versions
       #   if: steps.outdated_package.outputs.up_to_date != 'true'
       #   uses: peter-evans/create-pull-request@v3
