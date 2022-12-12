@@ -9,7 +9,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      - name: Check if installed @loadmill/agent version is outdated
+      - name: Check if installed @loadmill/agent version is indeed outdated
         run: yarn outdated @loadmill/agent
         id: outdated_agent_package
         continue-on-error: true
