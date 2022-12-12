@@ -22,8 +22,11 @@ jobs:
       - name: Check on failures
         if: steps.outdated_agent_package.outcome != 'success'
         run: echo failed
-      - name: get latest version
-        run: yarn info @loadmill/agent --json | python3 -c "import sys, json; print(json.load(sys.stdin)['data']['version'])"
+      - name: Get Latest @loadmill/agent Version
+        run: echo "agent_latest_version=$(yarn info @loadmill/agent --json | python3 -c "import sys, json; print(json.load(sys.stdin)['data']['version'])")" >> $GITHUB_OUTPUT
+        id: get_latest_agent_version
+      - name: DISPLAY
+        run: echo ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
       # - name: Create a PR with updated @loadmill/agent and repo versions
       #   if: steps.outdated_package.outputs.up_to_date != 'true'
       #   uses: peter-evans/create-pull-request@v3
