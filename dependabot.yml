@@ -3,6 +3,10 @@ update_configs:
   - package_manager: "yarn"
     directory: "/"
     update_schedule:
-      interval: "hourly"
-    allowed_updates:
-      - package_name: "@loadmill/agent"
+      interval: "daily"
+    # Use the updates property to tell Dependabot to create a PR for each new version of the @loadmill/agent package
+    updates:
+      - package: "@loadmill/agent"
+        update_type: "all"
+        schedule:
+          interval: "hourly"
