@@ -7,8 +7,6 @@ on: push
 jobs:
   check-package-updates:
     runs-on: ubuntu-latest
-    outputs:
-      run_rest_jobs: ${{ steps.set_output.outputs.run_jobs }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -29,13 +27,6 @@ jobs:
       - name: DISPLAY
         if: steps.continuer.outputs.continue == 'true'
         run: echo ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
-
-  create-pr:
-    needs: [check-package-updates]
-    runs-on: ubuntu-latest
-    if: needs.check-package-updates.outputs.run_rest_jobs == 'true'
-    steps:
-
 
       # - name: Create a PR with updated @loadmill/agent and repo versions
       #   if: steps.outdated_package.outputs.up_to_date != 'true'
