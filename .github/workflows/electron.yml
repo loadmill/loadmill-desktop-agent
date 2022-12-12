@@ -16,9 +16,12 @@ jobs:
         run: yarn outdated @loadmill/agent
         id: outdated_package
         continue-on-error: true
-      - name: check output of outdated
-        id: checker
+      - name: debug output of outdated
+        id: debugger
         run: echo ${{ steps.outdated_package.outputs.status }}
+      - name: yarn info of agent package
+        id: infoer
+        run: yarn info @loadmill/agent --json
         
       # - name: Create a PR with updated @loadmill/agent and repo versions
       #   if: steps.outdated_package.outputs.up_to_date != 'true'
