@@ -44,17 +44,20 @@ jobs:
       - run:
           name: run tests
           command: yarn lint-and-test
-      # - when:
-      #     condition:
-      #         not:
-      #           equal: [ master, << pipeline.git.branch >> ]
-      #     steps:
-      #       - run:
-      #           name: package application
-      #           command: yarn package
-      #       - run:
-      #           name: create distribution files
-      #           command: yarn only-make
+      - when:
+          condition:
+              not:
+                equal: [ master, << pipeline.git.branch >> ]
+          steps:
+            - run:
+                name: package application
+                command: yarn package
+            - run:
+                name: create distribution files
+                command: yarn only-make
+            - store_artifacts:
+                path: out/
+                destination: out/
       - when:
           condition:
             equal: [ master, << pipeline.git.branch >> ]
