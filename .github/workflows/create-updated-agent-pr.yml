@@ -26,7 +26,7 @@ jobs:
         run: echo ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
       - name: Fail Fast If PR Already Exists
         if: steps.continuer.outputs.continue == 'true'
-        run: git show-ref --quiet refs/heads/agent-version-${{ steps.get_latest_agent_version.outputs.agent_latest_version }})
+        run: git show-ref refs/heads/agent-version-${{ steps.get_latest_agent_version.outputs.agent_latest_version }} && fail-fast
         id: already_exists
       - name: Install New @loadmill/agent Version
         if: steps.continuer.outputs.continue == 'true'
