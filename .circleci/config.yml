@@ -36,11 +36,10 @@ jobs:
             - yarn-packages-v1-
       - run:
           name: install dependencies
-          command: yarn
+          command: yarn install
       - save_cache:
           paths:
-            - ~/.cache/yarn
-            - ./node_modules
+            - node_modules/
           key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
           name: run tests
