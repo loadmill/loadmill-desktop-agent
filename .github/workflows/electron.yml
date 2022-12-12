@@ -8,20 +8,24 @@ jobs:
   check-package-updates:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Check @loadmill/agent package updates
-        run: npm outdated @loadmill/agent
+        run: npm outdated @loadmill/agent >> $GITHUB_OUTPUT
         # Check if the @loadmill/agent package is outdated
         id: outdated_package
-      - name: Create a PR with updated @loadmill/agent and repo versions
-        if: steps.outdated_package.outputs.up_to_date != 'true'
-        uses: peter-evans/create-pull-request@v3
-        with:
-          # The title of the PR
-          title: 'Update @loadmill/agent and repo versions'
-          # The body of the PR
-          body: 'This PR updates the @loadmill/agent package and repository versions to the latest versions.'
-          # The branch where the changes will be made
-          head: update-package-versions
-          # The base branch to which the changes will be compared and merged
-          base: master
+      - name: check output of outdated
+        id: checker
+        run: echo ${{ steps.outdated_package.outputs }}
+        
+      # - name: Create a PR with updated @loadmill/agent and repo versions
+      #   if: steps.outdated_package.outputs.up_to_date != 'true'
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     # The title of the PR
+      #     title: 'Update @loadmill/agent and repo versions'
+      #     # The body of the PR
+      #     body: 'This PR updates the @loadmill/agent package and repository versions to the latest versions.'
+      #     # The branch where the changes will be made
+      #     head: update-package-versions
+      #     # The base branch to which the changes will be compared and merged
+      #     base: master
