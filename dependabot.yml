@@ -1,0 +1,8 @@
+version: 2
+update_configs:
+  - package_manager: "yarn"
+    directory: "/"
+    update_schedule:
+      interval: "hourly"
+    allowed_updates:
+      - package_name: "@loadmill/agent"

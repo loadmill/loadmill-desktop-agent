@@ -56,8 +56,7 @@ jobs:
                 name: create distribution files
                 command: yarn only-make
             - store_artifacts:
-                path: out/
-                destination: out/
+                path: out/make/
       - when:
           condition:
             equal: [ master, << pipeline.git.branch >> ]
