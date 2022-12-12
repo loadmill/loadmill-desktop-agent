@@ -20,12 +20,12 @@ jobs:
         continue-on-error: true
       - name: set failures
         if: steps.outdated_agent_package.outcome != 'success'
-        run: echo "::set-output name=run_jobs::true"
+        run: echo "run_jobs=true" >> $GITHUB_OUTPUT
 
   create-pr:
     needs: [check-package-updates]
     runs-on: ubuntu-latest
-    if: needs.check-package-updates.run_rest_jobs == 'true'
+    if: needs.check-package-updates.outputs.run_rest_jobs == 'true'
     steps:
       - name: Get Latest @loadmill/agent Version
         run: echo "agent_latest_version=$(yarn info @loadmill/agent --json | python3 -c "import sys, json; print(json.load(sys.stdin)['data']['version'])")" >> $GITHUB_OUTPUT
