@@ -20,18 +20,22 @@ jobs:
         continue-on-error: true
       - name: set failures
         if: steps.outdated_agent_package.outcome != 'success'
-        run: echo "run_jobs=true" >> $GITHUB_OUTPUT
+        run: echo "continue=true" >> $GITHUB_OUTPUT
+        id: continuer
+      - name: Get Latest @loadmill/agent Version
+        if: steps.continuer.outputs.continue == 'true'
+        run: echo "agent_latest_version=$(yarn info @loadmill/agent --json | python3 -c "import sys, json; print(json.load(sys.stdin)['data']['version'])")" >> $GITHUB_OUTPUT
+        id: get_latest_agent_version
+      - name: DISPLAY
+        if: steps.continuer.outputs.continue == 'true'
+        run: echo ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
 
   create-pr:
     needs: [check-package-updates]
     runs-on: ubuntu-latest
     if: needs.check-package-updates.outputs.run_rest_jobs == 'true'
     steps:
-      - name: Get Latest @loadmill/agent Version
-        run: echo "agent_latest_version=$(yarn info @loadmill/agent --json | python3 -c "import sys, json; print(json.load(sys.stdin)['data']['version'])")" >> $GITHUB_OUTPUT
-        id: get_latest_agent_version
-      - name: DISPLAY
-        run: echo ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
+
 
       # - name: Create a PR with updated @loadmill/agent and repo versions
       #   if: steps.outdated_package.outputs.up_to_date != 'true'
