@@ -13,7 +13,7 @@ jobs:
         run: yarn outdated @loadmill/agent
         id: outdated_agent_package
         continue-on-error: true
-      - name: Calculate and Set the Should Continue flag
+      - name: Calculate and Set the Should Continue Flag
         if: steps.outdated_agent_package.outcome != 'success'
         run: echo "continue=true" >> $GITHUB_OUTPUT
         id: continuer
@@ -24,6 +24,10 @@ jobs:
       - name: Show Latest @loadmill/agent Version
         if: steps.continuer.outputs.continue == 'true'
         run: echo ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
+      - name: Fail Fast If PR Already Exists
+        if: steps.continuer.outputs.continue == 'true'
+        run: git show-ref --quiet refs/heads/agent-version-${{ steps.get_latest_agent_version.outputs.agent_latest_version }})
+        id: already_exists
       - name: Install New @loadmill/agent Version
         if: steps.continuer.outputs.continue == 'true'
         run: yarn add @loadmill/agent
