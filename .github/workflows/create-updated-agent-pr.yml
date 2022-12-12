@@ -22,7 +22,7 @@ jobs:
         id: get_latest_agent_version
       - name: Show Latest @loadmill/agent Version
         run: echo ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
-      - name: Fail Fast When PR Already Exists
+      - name: Check If PR's branch Already Exists
         run: git show-ref refs/heads/agent-version-${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
         id: already_exists
         continue-on-error: true
@@ -35,7 +35,6 @@ jobs:
       - name: Increment This Repo's Patch Version
         run: yarn version --patch --no-git-tag-version
       - name: Create Pull Request
-        if: steps.continuer.outputs.continue == 'true'
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: 👆🕵️ Upgrade to agent version ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
