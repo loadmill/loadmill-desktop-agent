@@ -1,5 +1,5 @@
 name: Create a PR with updated @loadmill/agent and repo versions
-on: [deployment_status]
+on: push
   # schedule:
   #   # Check for updates every day at 12pm
   #   - cron: '0 12 * * *'
