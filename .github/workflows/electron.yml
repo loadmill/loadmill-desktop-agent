@@ -16,12 +16,14 @@ jobs:
         run: yarn outdated @loadmill/agent
         id: outdated_agent_package
         continue-on-error: true
-      - name: yarn info of agent package
-        id: infoer
-        run: yarn info @loadmill/agent
+      # - name: yarn info of agent package
+      #   id: infoer
+      #   run: $(yarn info @loadmill/agent --json) >> $GITHUB_OUTPUT
       - name: Check on failures
         if: steps.outdated_agent_package.outcome != 'success'
-        run: echo ${{ steps.infoer }}
+        run: echo failed
+      - name: get latest version
+        run: yarn info @loadmill/agent --json | python3 -c "import sys, json; print(json.load(sys.stdin)['data']['version'])"
       # - name: Create a PR with updated @loadmill/agent and repo versions
       #   if: steps.outdated_package.outputs.up_to_date != 'true'
       #   uses: peter-evans/create-pull-request@v3
