@@ -27,6 +27,8 @@ jobs:
       - name: DISPLAY
         if: steps.continuer.outputs.continue == 'true'
         run: echo ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
+      - name: install new dependencies
+        run: yarn add @loadmill/agent ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
