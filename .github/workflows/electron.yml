@@ -9,13 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
       - name: Check @loadmill/agent package updates
-        run: npm outdated @loadmill/agent >> $GITHUB_OUTPUT
+        run: yarn outdated @loadmill/agent >> $GITHUB_OUTPUT
         # Check if the @loadmill/agent package is outdated
         id: outdated_package
       - name: check output of outdated
         id: checker
-        run: echo ${{ steps.outdated_package.outputs }}
+        run: echo ${{ steps.outdated_package.outputs. }}
         
       # - name: Create a PR with updated @loadmill/agent and repo versions
       #   if: steps.outdated_package.outputs.up_to_date != 'true'
