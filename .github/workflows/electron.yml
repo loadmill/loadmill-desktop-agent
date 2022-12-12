@@ -7,6 +7,8 @@ on: push
 jobs:
   check-package-updates:
     runs-on: ubuntu-latest
+    outputs:
+      run_rest_jobs: ${{ steps.set_output.outputs.run_jobs }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -16,17 +18,21 @@ jobs:
         run: yarn outdated @loadmill/agent
         id: outdated_agent_package
         continue-on-error: true
-      # - name: yarn info of agent package
-      #   id: infoer
-      #   run: $(yarn info @loadmill/agent --json) >> $GITHUB_OUTPUT
-      - name: Check on failures
+      - name: set failures
         if: steps.outdated_agent_package.outcome != 'success'
-        run: echo failed
+        run: echo "::set-output name=run_jobs::true"
+
+  create-pr:
+    needs: [check-package-updates]
+    runs-on: ubuntu-latest
+    if: needs.check-package-updates.run_rest_jobs == 'true'
+    steps:
       - name: Get Latest @loadmill/agent Version
         run: echo "agent_latest_version=$(yarn info @loadmill/agent --json | python3 -c "import sys, json; print(json.load(sys.stdin)['data']['version'])")" >> $GITHUB_OUTPUT
         id: get_latest_agent_version
       - name: DISPLAY
         run: echo ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
+
       # - name: Create a PR with updated @loadmill/agent and repo versions
       #   if: steps.outdated_package.outputs.up_to_date != 'true'
       #   uses: peter-evans/create-pull-request@v3
