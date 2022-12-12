@@ -9,11 +9,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      - name: Check @loadmill/agent package updates
+      - name: Check if installed @loadmill/agent version is outdated
         run: yarn outdated @loadmill/agent
         id: outdated_agent_package
         continue-on-error: true
-      - name: set failures
+      - name: Calculate and Set the Should Continue flag
         if: steps.outdated_agent_package.outcome != 'success'
         run: echo "continue=true" >> $GITHUB_OUTPUT
         id: continuer
@@ -21,13 +21,13 @@ jobs:
         if: steps.continuer.outputs.continue == 'true'
         run: echo "agent_latest_version=$(yarn info @loadmill/agent --json | python3 -c "import sys, json; print(json.load(sys.stdin)['data']['version'])")" >> $GITHUB_OUTPUT
         id: get_latest_agent_version
-      - name: DISPLAY
+      - name: Show Latest @loadmill/agent Version
         if: steps.continuer.outputs.continue == 'true'
         run: echo ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
-      - name: install new dependencies
+      - name: Install New @loadmill/agent Version
         if: steps.continuer.outputs.continue == 'true'
         run: yarn add @loadmill/agent
-      - name: bump this repo's version
+      - name: Bump This Repo's (patch) Version
         if: steps.continuer.outputs.continue == 'true'
         run: yarn version
       - name: Create Pull Request
