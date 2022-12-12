@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 14
       - name: Check @loadmill/agent package updates
-        run: npm outdated @loadmill/agent
+        run: yarn outdated @loadmill/agent
         # Check if the @loadmill/agent package is outdated
         id: outdated_package
       - name: check output of outdated
