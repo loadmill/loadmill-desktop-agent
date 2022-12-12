@@ -12,15 +12,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      # - name: Check @loadmill/agent package updates
-      #   run: yarn outdated @loadmill/agent
-      #   id: outdated_package
-      #   continue-on-error: true
-      - uses: MeilCli/npm-update-check-action@v4
-        id: outdated
+      - name: Check @loadmill/agent package updates
+        run: yarn outdated @loadmill/agent
+        id: outdated_package
+        continue-on-error: true
       - name: check output of outdated
         id: checker
-        run: echo ${{ steps.outdated.outputs.has_npm_update }} ${{ steps.outdated.outputs.npm_update_text }} ${{ steps.outdated.outputs.npm_update_json }}
+        run: echo ${{ steps.outdated_package.outputs.up_to_date }}
         
       # - name: Create a PR with updated @loadmill/agent and repo versions
       #   if: steps.outdated_package.outputs.up_to_date != 'true'
