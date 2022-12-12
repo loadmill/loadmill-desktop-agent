@@ -21,7 +21,7 @@ jobs:
         run: yarn info @loadmill/agent
       - name: Check on failures
         if: steps.outdated_agent_package.outcome != 'success'
-        run: echo ${{ steps.infoer.outputs.data }}
+        run: echo ${{ steps.infoer }}
       # - name: Create a PR with updated @loadmill/agent and repo versions
       #   if: steps.outdated_package.outputs.up_to_date != 'true'
       #   uses: peter-evans/create-pull-request@v3
