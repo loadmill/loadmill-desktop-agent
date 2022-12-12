@@ -4,7 +4,6 @@ update_configs:
     directory: "/"
     update_schedule:
       interval: "daily"
-    # Use the updates property to tell Dependabot to create a PR for each new version of the @loadmill/agent package
     updates:
       - package: "@loadmill/agent"
         update_type: "all"
