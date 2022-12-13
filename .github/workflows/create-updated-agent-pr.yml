@@ -23,7 +23,7 @@ jobs:
       - name: Show Latest @loadmill/agent Version
         run: echo ${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
       - name: Check If PR's branch Already Exists
-        run: git show-ref refs/heads/agent-version-${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
+        run: git ls-remote --exit-code origin agent-version-${{ steps.get_latest_agent_version.outputs.agent_latest_version }}
         id: already_exists
         continue-on-error: true
       - name: Fail Fast When PR Already Exists
