@@ -13,7 +13,7 @@ jobs:
         run: yarn outdated @loadmill/agent
         id: outdated_agent_package
         continue-on-error: true
-      - name: Fail Fast When Agent Is Up To Date
+      - name: Fail Fast On Agent Is Up To Date
         if: steps.outdated_agent_package.outcome == 'success'
         run: fail-fast
         id: fail_on_up_to_date
